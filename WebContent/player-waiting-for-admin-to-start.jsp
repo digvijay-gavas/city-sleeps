@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="org.apache.tomcat.util.codec.binary.Base64"%>
 <%@page import="game.global.Storage"%>
 <%@page import="java.util.Iterator"%>
@@ -46,10 +47,17 @@
 	waiting for playesrs to joinn and admin to start..........
 	<ol>
 		<%
-			for (Iterator iterator = Storage.getPlayers(game_name).iterator(); iterator.hasNext();) {
-		%><li><%=(String) iterator.next()%></li>
-		<%
-			}
+		
+		for (Map.Entry<String, int[]> player : Storage.getPlayers(game_name).entrySet() ) {
+						
+			%><li><%=(String) player.getKey() +" -- "+ player.getValue()[0]%></li>
+			<%
+			// System.out.println(player.getKey() + "/" + player.getValue());
+		}
+			//for (Iterator iterator = Storage.getPlayers(game_name).iterator(); iterator
+			//		.hasNext();) {
+
+			//}
 		%>
 	</ol>
 </body>
