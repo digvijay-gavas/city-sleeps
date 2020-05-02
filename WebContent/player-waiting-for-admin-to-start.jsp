@@ -40,6 +40,13 @@
 				}
 			}
 		}
+		
+		/* voting for player name */
+		String voted_player_name=request.getParameter("voted_player_name");
+		if (voted_player_name!=null)
+		{
+			Storage.votePlayer(game_name, player_name,voted_player_name);
+		}
 	}
 
 	if (!Storage.isGameExist(game_name)) {
@@ -53,7 +60,7 @@
 	}
 %>
 <title><%=player_name%>(<%=game_name%>)</title>
-<meta http-equiv="refresh" content="10">
+<meta http-equiv="refresh" content="30">
 </head>
 <body>
 	<jsp:include page="game_status_banner.jsp">

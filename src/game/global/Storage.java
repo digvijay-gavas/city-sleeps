@@ -64,12 +64,34 @@ public class Storage {
 
 	public static void joinGame(String game_name, String player_name) {
 		if (!games.get(game_name).containsKey((player_name)))
-			games.get(game_name).put(player_name, new String[] { "NA", "NA" });
+			games.get(game_name).put(player_name, new String[] { "NA", null,null });
 
 	}
 
 	public static Map<String, String[]> getPlayers(String game_name) {
 		return games.get(game_name);
+	}
+	
+	public static void votePlayer(String game_name,String player_name , String voted_player_name) {
+		if(games.get(game_name).get(player_name)[2] == null /* whoIvoted */)
+		{
+			if(games.get(game_name).get(voted_player_name)[1]==null /* votes */ )
+			{
+				games.get(game_name).get(voted_player_name)[1]="1";
+			} else 
+			{
+				games.get(game_name).get(voted_player_name)[1]=""+Integer.parseInt(games.get(game_name).get(voted_player_name)[1])+1;
+			}
+			games.get(game_name).get(player_name)[2] = voted_player_name /* whoIvoted */;
+		}
+	}
+	
+	public static String whoIVoted(String game_name,String player_name) {
+		if(games.get(game_name).get(player_name)[2]!=null)
+		{
+			return games.get(game_name).get(player_name)[2];
+		}
+		return null;
 	}
 
 	public static List<String> getGames() {
@@ -77,6 +99,12 @@ public class Storage {
 		// return new ArrayList<String>(games.keySet());
 	}
 
+	public static boolean canMafiaKill(String game_name,String player_name) {
+		if (getNextGameStateInt(game_name)==4/*Mafia kill someone*/ && Storage.getPlayers(game_name).get(player_name)[0].equalsIgnoreCase("Mafia"))
+			return true;
+		return false;
+	}
+	
 	public static void startGame(String game_name, int no_of_mafia, int no_of_detective, int no_of_doctor) {
 		waiting_game_list.remove(game_name);
 		if (games_states.get(game_name)[0] != 0/* waiting */)
