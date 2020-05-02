@@ -27,10 +27,13 @@
 		Storage.startGame(game_name,no_of_mafia,no_of_detective,no_of_doctor);
 	} catch (NumberFormatException e) {}
 	
-	Storage.advanceGameState(game_name);
+	if (request.getParameter("is_next") !=null  &&request.getParameter("is_next").equalsIgnoreCase("true"))
+	{
+		Storage.advanceGameState(game_name);
+	}
 %>
 <title><%=game_name%></title>
-<meta http-equiv="refresh" content="10">
+<meta http-equiv="refresh" content="100">
 </head>
 <body>
 	<jsp:include page="game_status_banner.jsp">
@@ -39,7 +42,8 @@
 	<jsp:include page="PlayersList.jsp">
 		<jsp:param name="game_name" value="<%=game_name%>" />
 	</jsp:include>
-	<form action="start.jsp">
+	<form action="start.jsp" method="POST">
+		<input type="hidden" value="true" name="is_next"/>
 		<input type="submit" value="<%=Storage.getNextGameState(game_name)%>"/>
 	</form>
 </body>

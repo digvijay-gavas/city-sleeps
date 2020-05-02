@@ -60,7 +60,7 @@
 		<jsp:param name="game_name" value="<%=game_name%>" />
 		<jsp:param name="player_name" value="<%=player_name%>" />
 	</jsp:include>
-	<jsp:include page="PlayersList.jsp">
+	<jsp:include page="PlayersPlayboard.jsp">
 		<jsp:param name="game_name" value="<%=game_name%>" />
 		<jsp:param name="player_name" value="<%=player_name%>" />
 	</jsp:include>
