@@ -61,7 +61,7 @@
 
 
 	<form action="player-waiting-for-admin-to-start.jsp" method="POST">
-		<input type="text" value="Digi" name="player_name" /> 
+		<input type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" name="player_name" /> 
 		<input type="hidden" value="new" name="is_new" /> <select name="game_name">
 			<%
 				for (Iterator iterator = Storage.getGames().iterator(); iterator.hasNext();) {
