@@ -31,12 +31,22 @@
 	}
 	if (player_name == null || game_name == null) {
 		Storage.joinGame(request.getParameter("game_name"), request.getParameter("player_name"));
-		game_name=request.getParameter("game_name");
-		player_name=request.getParameter("player_name");
+		game_name = request.getParameter("game_name");
+		player_name = request.getParameter("player_name");
 		response.addCookie(new Cookie("game_name",
 				new String(Base64.encodeBase64(request.getParameter("game_name").getBytes()))));
 		response.addCookie(new Cookie("player_name",
 				new String(Base64.encodeBase64(request.getParameter("player_name").getBytes()))));
+	}
+
+	if (!Storage.isGameExist(game_name)) {
+	%>sorry game expired on server<%
+	Cookie to_delete = new Cookie("game_name", "");
+		to_delete.setMaxAge(0);
+		response.addCookie(to_delete);
+		to_delete = new Cookie("player_name", "");
+		to_delete.setMaxAge(0);
+		response.addCookie(to_delete);
 	}
 %>
 <title><%=player_name%>(<%=game_name%>)</title>
@@ -44,21 +54,10 @@
 </head>
 <body>
 	<h1><%=game_name%></h1>
-	waiting for playesrs to joinn and admin to start..........
-	<ol>
-		<%
-		
-		for (Map.Entry<String, int[]> player : Storage.getPlayers(game_name).entrySet() ) {
-						
-			%><li><%=(String) player.getKey() +" -- "+ player.getValue()[0]%></li>
-			<%
-			// System.out.println(player.getKey() + "/" + player.getValue());
-		}
-			//for (Iterator iterator = Storage.getPlayers(game_name).iterator(); iterator
-			//		.hasNext();) {
-
-			//}
-		%>
-	</ol>
+	waiting for players to join and supervisor to start..........
+	<jsp:include page="PlayersList.jsp">
+		<jsp:param name="game_name" value="<%=game_name%>" />
+		<jsp:param name="player_name" value="<%=player_name%>" />
+	</jsp:include>
 </body>
 </html>

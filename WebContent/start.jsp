@@ -1,7 +1,7 @@
 <%@page import="game.global.Storage"%>
 <%@page import="org.apache.tomcat.util.codec.binary.Base64"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,5 +27,8 @@
 </head>
 <body>
 
+	<jsp:include page="PlayersList.jsp">
+		<jsp:param name="game_name" value="<%=game_name%>" />
+	</jsp:include>
 </body>
 </html>

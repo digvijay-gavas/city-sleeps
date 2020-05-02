@@ -9,11 +9,22 @@ import java.util.Random;
 
 public class Storage {
 	static Map<String, Map<String, int[]>> games = new HashMap<String, Map<String, int[]>>();
-
+	static Map<String,String[]> games_states=new HashMap<String, String[]>();
+	static List<String> waiting_game_list=new ArrayList<String>();
+	
 	public static void addGame(String game_name) {
 		if (!games.containsKey(game_name))
+		{
 			games.put(game_name, new HashMap<String, int[]>());
+			games_states.put(game_name, new String[] {"waiting"});
+			waiting_game_list.add(game_name);
+		}
+			
 
+	}
+	
+	public static boolean isGameExist(String game_name) {
+		return games.containsKey(game_name);
 	}
 
 	public static void joinGame(String game_name, String player_name) {
@@ -27,10 +38,12 @@ public class Storage {
 	}
 
 	public static List<String> getGames() {
-		return new ArrayList<String>(games.keySet());
+		return waiting_game_list;
+		//return new ArrayList<String>(games.keySet());
 	}
 
 	public static void startGame(String game_name) {
+		waiting_game_list.remove(game_name);
 		Map<String, int[]> players = games.get(game_name);
 		int size = players.size();
 		Random random = new Random();
