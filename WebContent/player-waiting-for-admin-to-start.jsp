@@ -13,23 +13,10 @@
 <%
 	String player_name = null;
 	String game_name = null;
-
-	Cookie cookie = null;
-	Cookie[] cookies = null;
-	cookies = request.getCookies();
-	if (cookies != null) {
-
-		for (int i = 0; i < cookies.length; i++) {
-			cookie = cookies[i];
-			if (cookie.getName().equalsIgnoreCase("player_name")) {
-
-				player_name = new String(Base64.decodeBase64(cookie.getValue()));
-			} else if (cookie.getName().equalsIgnoreCase("game_name")) {
-				game_name = new String(Base64.decodeBase64(cookie.getValue()));
-			}
-		}
-	}
-	if (player_name == null || game_name == null) {
+	
+	
+	if (request.getParameter("is_new")!=null && request.getParameter("is_new").equalsIgnoreCase("new"))
+	{
 		Storage.joinGame(request.getParameter("game_name"), request.getParameter("player_name"));
 		game_name = request.getParameter("game_name");
 		player_name = request.getParameter("player_name");
@@ -37,6 +24,22 @@
 				new String(Base64.encodeBase64(request.getParameter("game_name").getBytes()))));
 		response.addCookie(new Cookie("player_name",
 				new String(Base64.encodeBase64(request.getParameter("player_name").getBytes()))));
+	} else 
+	{
+		Cookie cookie = null;
+		Cookie[] cookies = null;
+		cookies = request.getCookies();
+		if (cookies != null) {
+
+			for (int i = 0; i < cookies.length; i++) {
+				cookie = cookies[i];
+				if (cookie.getName().equalsIgnoreCase("player_name")) {
+					player_name = new String(Base64.decodeBase64(cookie.getValue()));
+				} else if (cookie.getName().equalsIgnoreCase("game_name")) {
+					game_name = new String(Base64.decodeBase64(cookie.getValue()));
+				}
+			}
+		}
 	}
 
 	if (!Storage.isGameExist(game_name)) {
@@ -53,8 +56,10 @@
 <meta http-equiv="refresh" content="10">
 </head>
 <body>
-	<h1><%=game_name%></h1>
-	waiting for players to join and supervisor to start..........
+	<jsp:include page="game_status_banner.jsp">
+		<jsp:param name="game_name" value="<%=game_name%>" />
+		<jsp:param name="player_name" value="<%=player_name%>" />
+	</jsp:include>
 	<jsp:include page="PlayersList.jsp">
 		<jsp:param name="game_name" value="<%=game_name%>" />
 		<jsp:param name="player_name" value="<%=player_name%>" />

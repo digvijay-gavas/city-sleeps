@@ -20,7 +20,10 @@
 			}
 		}
 	}
-	Storage.startGame(game_name);
+	int no_of_mafia=Integer.parseInt(request.getParameter("no_of_mafia"));
+	int no_of_detective=Integer.parseInt(request.getParameter("no_of_detective"));
+	int no_of_doctor=Integer.parseInt(request.getParameter("no_of_doctor"));
+	Storage.startGame(game_name,no_of_mafia,no_of_detective,no_of_doctor);
 %>
 <title><%=game_name%></title>
 <meta http-equiv="refresh" content="10">

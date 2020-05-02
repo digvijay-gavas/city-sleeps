@@ -13,29 +13,22 @@
 <%
 	String game_name = request.getParameter("game_name");
 	String player_name = request.getParameter("player_name");
+	String game_state = Storage.getGameState(game_name);
 %>
 </head>
 <body>
 
-	<ol>
-		<%
-			Map<String, String[]> players = Storage.getPlayers(game_name);
-			if (players == null) {
-		%>
-		sorry game expired on server<%
-			} else
-				for (Map.Entry<String, String[]> player : players.entrySet()) {
+	<%
+		if (player_name != null) {
+	%><h2><%=player_name + "  playing '" + game_name+"'"%></h2>
+	<h3><%="" + game_state%></h3>
+	<%
+		} else {
+			%><h2><%= game_name%></h2>
+			<h2><%=game_state%></h2>
+			<%
+		}
+	%>
 
-					if (player_name == null) {
-						%><li><%=(String) player.getKey() + " -- " + player.getValue()[0]%></li>
-						<%
-					} else 
-					{
-						%><li><%=(String) player.getKey()%></li>
-						<%
-					}
-				}
-		%>
-	</ol>
 </body>
 </html>

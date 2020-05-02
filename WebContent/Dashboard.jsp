@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<meta http-equiv="refresh" content="10">
+<meta http-equiv="refresh" content="60">
 </head>
 <body>
 
@@ -50,33 +50,29 @@
 	<%
 		}
 	%>
-	<table>
-		<tr>
-			<th>Welcome to city sleeps</th>
-		</tr>
-		<form action="superviser-waiting-for-players.jsp" method="POST">
-			<tr>
-				<td><input type="text" value="We Are Civilian" name="game_name"></input></td>
-				<td><input type="submit" value="CreateGame"></input></td>
-			</tr>
-		</form>
-		<form action="player-waiting-for-admin-to-start.jsp" method="POST">
-			<tr>
-				<td><input type="text" value="Digi" name="player_name"></input></td>
-				<td><select name="game_name">
-						<%
-							for (Iterator iterator = Storage.getGames().iterator(); iterator.hasNext();) {
-								game_name = (String) iterator.next();
-						%><option value="<%=game_name%>"><%=game_name%></option>
-						<%
-							}
-						%>
-				</select></td>
-				<td><input type="submit" value="JoinGame"></input></td>
-			</tr>
-		</form>
 
-	</table>
+	Welcome to city sleeps
+
+
+	<form action="superviser-waiting-for-players.jsp" method="POST">
+		<input type="text" value="We Are Civilian" name="game_name" /> 
+		<input type="submit" value="CreateGame" /> <input type="hidden" value="new"	name="is_new" />
+	</form>
+
+
+	<form action="player-waiting-for-admin-to-start.jsp" method="POST">
+		<input type="text" value="Digi" name="player_name" /> 
+		<input type="hidden" value="new" name="is_new" /> <select name="game_name">
+			<%
+				for (Iterator iterator = Storage.getGames().iterator(); iterator.hasNext();) {
+					game_name = (String) iterator.next();
+			%><option value="<%=game_name%>"><%=game_name%></option>
+			<%
+				}
+			%>
+		</select> 
+		<input type="submit" value="JoinGame" />
+	</form>
 
 </body>
 </html>
