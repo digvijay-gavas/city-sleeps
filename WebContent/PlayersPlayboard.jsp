@@ -6,17 +6,28 @@
 	pageEncoding="UTF-8"%>
 
 <%!%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
 <%
 	String game_name = request.getParameter("game_name");
 	String player_name = request.getParameter("player_name");
 %>
-</head>
-<body>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+setInterval(function(){
+	   $('#players_div').load('PlayersPlayboard.jsp #players_div',{game_name:'<%=game_name%>',player_name:'<%=player_name%>'});
+	}, 2000) 
+	function callMethod(name,arg1,arg2,arg3)
+	{
+		console.log(name);
+		console.log(arg1);
+		console.log(arg2);
+		console.log(arg3);
+		$('#status_div').load('callMethod.jsp',{game_name:'<%=game_name%>',player_name:'<%=player_name%>',name:name,arg1:arg1, arg2:arg2, arg3:arg3 });
+		 $('#players_div').load('PlayersPlayboard.jsp #players_div',{game_name:'<%=game_name%>',player_name:'<%=player_name%>'});
+	}
+</script>
+<div id="status_div"></div>
+<div id="players_div">
+	<%=System.currentTimeMillis()%>
 	<%
 		Map<String, String[]> players = Storage.getPlayers(game_name);
 		if (players == null) {
@@ -25,7 +36,7 @@
 
 	<%
 		} else {
-	%><table>
+	%><table border="1"  >
 		<%
 			String who_am_i = players.get(player_name)[0]; /* Mafia/Detective/Doctor/Civilian */
 				if (who_am_i.equalsIgnoreCase("Civilian")) {
@@ -59,10 +70,7 @@
 						else
 						{
 						%><td>
-						<form action="player-waiting-for-admin-to-start.jsp">
-							<input type="hidden" value="<%=player.getKey()%>" name="voted_player_name">
-							<input type="submit" value="kill"/>
-						</form>
+						<button onclick="callMethod('votePlayer','<%=player.getKey()%>');">kill</button>
 						</td>
 						<%
 						} %>
@@ -80,5 +88,4 @@
 	<%
 		}
 	%>
-</body>
-</html>
+</div>

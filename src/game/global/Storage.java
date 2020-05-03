@@ -73,17 +73,40 @@ public class Storage {
 	}
 	
 	public static void votePlayer(String game_name,String player_name , String voted_player_name) {
-		if(games.get(game_name).get(player_name)[2] == null /* whoIvoted */)
+		String already_voted_player_name=games.get(game_name).get(player_name)[2]/* whoIvoted */;
+		
+		if( already_voted_player_name == null )
 		{
-			if(games.get(game_name).get(voted_player_name)[1]==null /* votes */ )
+			games.get(game_name).get(voted_player_name)[1]=addVote(games.get(game_name).get(voted_player_name)[1],1);
+			/*if(games.get(game_name).get(voted_player_name)[1]==null  )
 			{
 				games.get(game_name).get(voted_player_name)[1]="1";
 			} else 
 			{
 				games.get(game_name).get(voted_player_name)[1]=""+Integer.parseInt(games.get(game_name).get(voted_player_name)[1])+1;
-			}
+			}*/
 			games.get(game_name).get(player_name)[2] = voted_player_name /* whoIvoted */;
 		}
+		else {
+			
+			games.get(game_name).get(already_voted_player_name)[1]
+					=addVote(games.get(game_name).get(already_voted_player_name)[1],-1);
+			games.get(game_name).get(voted_player_name)[1]
+					=addVote(games.get(game_name).get(voted_player_name)[1],1);
+			games.get(game_name).get(player_name)[2] = voted_player_name /* whoIvoted */;
+		}
+	}
+	
+	private static String addVote(String voteString, int vote)
+	{
+ 		if(voteString==null /* votes */ )
+		{
+			voteString=""+vote;
+		} else 
+		{
+			voteString=""+(Integer.parseInt(voteString)+vote);
+		}
+		return voteString;
 	}
 	
 	public static String whoIVoted(String game_name,String player_name) {
@@ -100,7 +123,7 @@ public class Storage {
 	}
 
 	public static boolean canMafiaKill(String game_name,String player_name) {
-		if (getNextGameStateInt(game_name)==4/*Mafia kill someone*/ && Storage.getPlayers(game_name).get(player_name)[0].equalsIgnoreCase("Mafia"))
+		if (getNextGameStateInt(game_name)==5/*Mafia kill someone*/ && Storage.getPlayers(game_name).get(player_name)[0].equalsIgnoreCase("Mafia"))
 			return true;
 		return false;
 	}

@@ -13,10 +13,8 @@
 <%
 	String player_name = null;
 	String game_name = null;
-	
-	
-	if (request.getParameter("is_new")!=null && request.getParameter("is_new").equalsIgnoreCase("new"))
-	{
+
+	if (request.getParameter("is_new") != null && request.getParameter("is_new").equalsIgnoreCase("new")) {
 		Storage.joinGame(request.getParameter("game_name"), request.getParameter("player_name"));
 		game_name = request.getParameter("game_name");
 		player_name = request.getParameter("player_name");
@@ -24,8 +22,7 @@
 				new String(Base64.encodeBase64(request.getParameter("game_name").getBytes()))));
 		response.addCookie(new Cookie("player_name",
 				new String(Base64.encodeBase64(request.getParameter("player_name").getBytes()))));
-	} else 
-	{
+	} else {
 		Cookie cookie = null;
 		Cookie[] cookies = null;
 		cookies = request.getCookies();
@@ -40,17 +37,16 @@
 				}
 			}
 		}
-		
+
 		/* voting for player name */
-		String voted_player_name=request.getParameter("voted_player_name");
-		if (voted_player_name!=null)
-		{
-			Storage.votePlayer(game_name, player_name,voted_player_name);
+		String voted_player_name = request.getParameter("voted_player_name");
+		if (voted_player_name != null) {
+			Storage.votePlayer(game_name, player_name, voted_player_name);
 		}
 	}
 
 	if (!Storage.isGameExist(game_name)) {
-	%>sorry game expired on server<%
+%>sorry game expired on server<%
 	Cookie to_delete = new Cookie("game_name", "");
 		to_delete.setMaxAge(0);
 		response.addCookie(to_delete);
@@ -60,7 +56,7 @@
 	}
 %>
 <title><%=player_name%>(<%=game_name%>)</title>
-<meta http-equiv="refresh" content="30">
+<!-- meta http-equiv="refresh" content="30" -->
 </head>
 <body>
 	<jsp:include page="game_status_banner.jsp">
