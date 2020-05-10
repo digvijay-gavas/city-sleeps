@@ -1,6 +1,7 @@
 <%
 %>
-<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script -->
+<script	src="js/jquery.min.js"></script>
 <script type="text/javascript">
 	function setCookie(cname, cvalue, exdays) {
 	  var d = new Date();
@@ -11,7 +12,7 @@
 
 	function callMethodRedirect(name,cookie_name,redirect,arg1,arg2,arg3)
 	{
-		var arg1val='';
+		/*var arg1val='';
 		var arg2val='';
 		var arg3val='';
 		
@@ -29,7 +30,7 @@
 		console.log(name);
 		console.log(arg1val);
 		console.log(arg2val);
-		console.log(arg3val); 
+		console.log(arg3val); */
 		
 		//$('#status_div').load('callMethod.jsp',{name:name,arg1:arg1val, arg2:arg2val, arg3:arg3val });
 		//setCookie(cookie_name,document.getElementById('status_div'),1);
@@ -37,7 +38,8 @@
 		$.ajax({
 	        type: "POST",
 	        url: 'callMethod.jsp',
-	        data: ({ name:name,arg1:arg1val, arg2:arg2val, arg3:arg3val}),
+	        //data: ({ name:name,arg1:arg1val, arg2:arg2val, arg3:arg3val}),
+	        data: ({ name:name,arg1:arg1, arg2:arg2, arg3:arg3}),
 	        dataType: "html",
 	        // contentType: "application/json; charset=utf-8",    
 	        success: function(data) {

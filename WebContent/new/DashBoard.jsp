@@ -89,23 +89,20 @@
 		<div id="create_game_div">
 			
 			<input type="text" value="We Are Civilian" id="create_game_name" />  
-			<button onclick="callMethod('addGame','game_uniqueID','Superviser.jsp','create_game_name');">Create Game</button>
-		
-		
-			<form action="Player.jsp" method="POST">
-				<input type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" name="player_name" /> 
-				<input type="hidden" value="true" name="is_new" /> 
-				<select name="game_name">
-					<%
-					for ( Map.Entry<String, Game> gameEntry : GamesStorage.getJoinableGames().entrySet())  {
-					
-					%><option value="<%=gameEntry.getKey()%>"><%=gameEntry.getValue().getName() + "(" +gameEntry.getKey()+")"%></option>
-					<%
-						}
-					%>
-				</select> 
-				<input type="submit" value="JoinGame" />
-			</form>
+			<button onclick="callMethodRedirect('addGame','game_uniqueID','Superviser.jsp',document.getElementById('create_game_name').getAttribute('value'),'<%=""+(10000+Math.round(Math.random()*90000))%>');">Create Game</button>
+			<br>
+			<input type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" id="join_player_name" /> 
+			<select id="join_game_uniqueID">
+				<%
+				for ( Map.Entry<String, Game> gameEntry : GamesStorage.getJoinableGames().entrySet())  {
+				
+				%><option value="<%=gameEntry.getKey()%>"><%=gameEntry.getValue().getName() + "(" +gameEntry.getKey()+")"%></option>
+				<%
+					}
+				%>
+			</select> 
+			<button onclick="setCookie('game_uniqueID',document.getElementById('join_game_uniqueID').options[document.getElementById('join_game_uniqueID').selectedIndex].value,1);callMethodRedirect('joinGame','player_uniqueID','Player.jsp',document.getElementById('join_game_uniqueID').options[document.getElementById('join_game_uniqueID').selectedIndex].value, document.getElementById('join_player_name').getAttribute('value'));">Join Game</button>
+
 		</div>
 		<div id="status_div"></div>
 		<%} %>

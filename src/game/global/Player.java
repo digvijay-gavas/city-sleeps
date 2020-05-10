@@ -5,11 +5,16 @@ import java.util.UUID;
 public class Player {
     public enum roles {Civilian,Detective,Doctor};
     private int role;
-    private int votes = 1;
+    private int votes = 0;
     private Player votedTo;
     private boolean isKilled = false;
     public final String uniqueID = UUID.randomUUID().toString();
     String name;
+    
+    final public static int Civilian=0;
+    final public static int Mafia=1;
+    final public static int Detective=2;
+    final public static int Doctor=3;
     
     public Player(String name) {
 		this.name=name;
