@@ -119,6 +119,27 @@ public class Game {
 		return "";
 	}
 
+	public String killPlayer(String player_uniqueID, String whom__uniqueID)
+	{
+		players.get(player_uniqueID).killOtherPlayer(players.get(whom__uniqueID));
+		return whom__uniqueID;
+	}
+	
+	public String identifyPlayer(String player_uniqueID, String whom__uniqueID)
+	{
+		players.get(player_uniqueID).identifyOtherPlayer(players.get(whom__uniqueID));
+		return whom__uniqueID;
+	}
+	public String savePlayer(String player_uniqueID, String whom__uniqueID)
+	{
+		players.get(player_uniqueID).saveOtherPlayer(players.get(whom__uniqueID));
+		return whom__uniqueID;
+	}
+	public String eliminatePlayer(String player_uniqueID, String whom__uniqueID)
+	{
+		players.get(player_uniqueID).eliminateOtherPlayer(players.get(whom__uniqueID));
+		return whom__uniqueID;
+	}
 	public boolean isWaiting() {
 		if(this.state==Game.waiting)
 			return true;
@@ -175,6 +196,91 @@ public class Game {
 	public Player getPlayer(String player_uniqueID)
 	{
 		return players.get(player_uniqueID);
+	}
+	
+	public String calulateAndKill()
+	{
+		boolean does_all_Mafia_voted=true;
+		boolean does_all_Detective_voted=true;
+		boolean does_all_Doctors_voted=true;
+		for (Map.Entry<String, Player> player : players.entrySet()) 
+		{
+			if(player.getValue().getRole()==Player.Mafia 
+			   && player.getValue().getWhoIKilled()==null)
+				does_all_Mafia_voted=false;
+			if(player.getValue().getRole()==Player.Detective 
+					   && player.getValue().getWhoIIdentified()==null)
+						does_all_Detective_voted=false;
+			if(player.getValue().getRole()==Player.Doctor 
+					   && player.getValue().getWhoISaved()==null)
+						does_all_Doctors_voted=false;
+		}
+		if(  does_all_Mafia_voted
+		  && does_all_Detective_voted
+		  && does_all_Doctors_voted)
+		{
+			for (Map.Entry<String, Player> player : players.entrySet()) 
+				if(player.getValue().canKill())
+					player.getValue().kill();
+			this.goToNextState();
+			this.resetPlayers();
+		}	else
+		{
+			return "one of follwing check failed <br> "
+					+ "does_all_Mafia_voted "+does_all_Mafia_voted
+					+ "does_all_Detective_voted "+does_all_Detective_voted
+					+ "does_all_Doctors_voted "+does_all_Doctors_voted;
+		}
+		return "";
+	}
+	
+	public String calulateAndEliminate()
+	{
+		Player eliminated_player=null;
+		int max_votes=0;
+		boolean isTie=false;
+		for (Map.Entry<String, Player> player : players.entrySet()) 
+		{
+			if(player.getValue().getEliminateVote() > max_votes)
+			{
+				eliminated_player=player.getValue();
+				max_votes=player.getValue().getEliminateVote();
+				isTie=false;
+			} else if(player.getValue().getEliminateVote() == max_votes)
+			{
+				eliminated_player=player.getValue();
+				max_votes=player.getValue().getEliminateVote();
+				isTie=true;
+			}
+		}
+		
+		if(!isTie && eliminated_player!=null && max_votes >0)
+		{
+			eliminated_player.kill();
+			this.goToNextState();
+			this.resetPlayers();
+		}
+		else
+			return "Cannot eliminate playet, Tie !!!";
+		return "";
+	}
+	
+	public void resetPlayers()
+	{
+		for (Map.Entry<String, Player> player : players.entrySet()) 
+		{
+			player.getValue().reset();
+		}
+	}
+	
+	public String resetGame()
+	{
+		state=START_STATE;
+		for (Map.Entry<String, Player> player : players.entrySet()) 
+		{
+			player.getValue().hardReset();
+		}
+		return "";
 	}
 	
 }

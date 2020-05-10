@@ -8,16 +8,14 @@ import java.util.Map;
 import java.util.Random;
 
 public class Storage {
-	static Map<String, Map<String, String[]>> games = new HashMap<String, Map<String, String[]>>();
+	static Map<String, Map<String, int[]>> games = new HashMap<String, Map<String, int[]>>();
 	static Map<String, int[]> games_states = new HashMap<String, int[]>();
 	static List<String> waiting_game_list = new ArrayList<String>();
-	static String[] GAME_STATES = new String[] { "waiting", "started", "city sleeps", "Mafia wake up",
-			"Mafia kill someone", "Mafia sleeps", "Detective wake up", "Detective identify someone", "Detective sleeps",
-			"Doctor wake up", "Doctor save someone", "Doctor sleeps", "city wake up", "city identify Mafia" };
+	
 
 	public static void addGame(String game_name) {
 		if (!games.containsKey(game_name)) {
-			games.put(game_name, new HashMap<String, String[]>());
+			games.put(game_name, new HashMap<String, int[]>());
 			games_states.put(game_name, new int[] { 0/* waiting */ });
 			waiting_game_list.add(game_name);
 		}
@@ -30,7 +28,7 @@ public class Storage {
 
 	public static String getGameState(String game_name) {
 		try {
-			return GAME_STATES[games_states.get(game_name)[0]];
+			return Constant.GAME_STATES[games_states.get(game_name)[0]];
 		} catch (Exception e) {
 			return "Error";
 		}
@@ -38,7 +36,7 @@ public class Storage {
 
 	public static String getNextGameState(String game_name) {
 		try {
-			return GAME_STATES[Storage.getNextGameStateInt(game_name)];
+			return Constant.GAME_STATES[Storage.getNextGameStateInt(game_name)];
 		} catch (Exception e) {
 			return "Error";
 		}
@@ -46,7 +44,7 @@ public class Storage {
 
 	private static int getNextGameStateInt(String game_name) {
 		int next_game_state = 0;
-		if (games_states.get(game_name)[0] < GAME_STATES.length -1) {
+		if (games_states.get(game_name)[0] < Constant.GAME_STATES.length -1) {
 			next_game_state = games_states.get(game_name)[0] + 1;
 		} else {
 			next_game_state = 2/* city sleeps */;
@@ -56,40 +54,50 @@ public class Storage {
 
 	public static boolean advanceGameState(String game_name) {
 		if (games_states.get(game_name)[0] > 0/* waiting */) {
+			
+			switch (Storage.getNextGameStateInt(game_name)) {
+			case 6 /*Mafia sleeps*/:
+				
+				break;
+
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + games_states.get(game_name)[0]);
+			}
+			
 			games_states.get(game_name)[0]=Storage.getNextGameStateInt(game_name);
 			return true;
 		}
 		return false;
 	}
 
+	
+	
 	public static void joinGame(String game_name, String player_name) {
 		if (!games.get(game_name).containsKey((player_name)))
-			games.get(game_name).put(player_name, new String[] { "NA", null,null });
+		{
+			int player_id=games.get(game_name).size()+1;
+			games.get(game_name).put(player_name, new int[] { 0, 0, 0, 0, player_id /*role,votes,votedTo,isKilled,playerId*/});
+		}
 
 	}
 
-	public static Map<String, String[]> getPlayers(String game_name) {
+	public static Map<String, int[]> getPlayers(String game_name) {
 		return games.get(game_name);
 	}
 	
-	public static void votePlayer(String game_name,String player_name , String voted_player_name) {
-		String already_voted_player_name=games.get(game_name).get(player_name)[2]/* whoIvoted */;
+	
+	public static void votePlayer(String game_name,String player_name , int voted_player_name) {
+		int already_voted_player_name=games.get(game_name).get(player_name)[GAME_COLUMN.votedTo]/* whoIvoted */;
 		
-		if( already_voted_player_name == null )
+		if( already_voted_player_name == 0 /*Not voted*/ )
 		{
-			games.get(game_name).get(voted_player_name)[1]=addVote(games.get(game_name).get(voted_player_name)[1],1);
-			/*if(games.get(game_name).get(voted_player_name)[1]==null  )
-			{
-				games.get(game_name).get(voted_player_name)[1]="1";
-			} else 
-			{
-				games.get(game_name).get(voted_player_name)[1]=""+Integer.parseInt(games.get(game_name).get(voted_player_name)[1])+1;
-			}*/
-			games.get(game_name).get(player_name)[2] = voted_player_name /* whoIvoted */;
+			games.get(game_name).get(voted_player_name)[GAME_COLUMN.votes]+=1;
+			games.get(game_name).get(player_name)[GAME_COLUMN.votedTo] = voted_player_name /* whoIvoted */;
 		}
-		else {
+		else /*changing vote*/
+		{
 			
-			games.get(game_name).get(already_voted_player_name)[1]
+			games.get(game_name).get(already_voted_player_name)[GAME_COLUMN.votes]
 					=addVote(games.get(game_name).get(already_voted_player_name)[1],-1);
 			games.get(game_name).get(voted_player_name)[1]
 					=addVote(games.get(game_name).get(voted_player_name)[1],1);
@@ -106,6 +114,8 @@ public class Storage {
 		{
 			voteString=""+(Integer.parseInt(voteString)+vote);
 		}
+ 		if(voteString.equalsIgnoreCase("0"))
+ 			return null;
 		return voteString;
 	}
 	

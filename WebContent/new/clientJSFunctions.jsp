@@ -45,6 +45,7 @@ String auto_refersh=auto_refersh_page+" "+auto_refersh_div;
 	        	$(refresh_div).load(refresh_page+' '+refresh_div,{game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>'});
 	        	//console.log('-success');
 	        	//console.log(data[0].gameID);
+	        	document.getElementById('status_div').innerHTML=data
 	            return data;
 	        },
 	        error: function() {
