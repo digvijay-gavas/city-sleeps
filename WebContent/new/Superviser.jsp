@@ -161,9 +161,8 @@
 				break;
 			case Game.city_wake_up_and_elimimate_someone:
 				%>
-				<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','startGame');">Next: <%=Constant.GAME_STATES[game.getNextState()]%></button>
+				<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','calulateAndEliminate');">Next: <%=Constant.GAME_STATES[game.getNextState()]%></button>
 				<%
-
 				break;
 			}
 			%>

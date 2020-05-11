@@ -66,17 +66,19 @@ else if(method_name.equalsIgnoreCase("calulateAndKill"))
 	return_value=GamesStorage.getGame(request.getParameter("game_uniqueID")).calulateAndKill();
 	%><%=return_value%><%
 }
+else if(method_name.equalsIgnoreCase("calulateAndEliminate"))
+{
+	return_value=GamesStorage.getGame(request.getParameter("game_uniqueID")).calulateAndEliminate();
+	%><%=return_value%><%
+}
+
+//-----------------------------TESTING ----------------------------------------------
 else if(method_name.equalsIgnoreCase("resetGame"))
 {
 	return_value=GamesStorage.getGame(request.getParameter("game_uniqueID")).resetGame();
 	%><%=return_value%><%
 }
 
-
-
-
-
-// -----------------------------TESTING ----------------------------------------------
 else if(method_name.equalsIgnoreCase("goToStep"))
 {
 	GamesStorage.getGame(request.getParameter("game_uniqueID")).state=Integer.parseInt(request.getParameter("arg1"));
