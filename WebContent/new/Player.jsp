@@ -237,30 +237,46 @@
 								<td></td>
 								<td></td>
 								<%		
-							}else if(!player.isKilled()  && i_Player.getValue().getWhoIEliminate()!=null) 
-							{
-								%>
-								<td><button onclick="callMethodAndRefresh('Player.jsp','#players_div','eliminatePlayer','<%=i_Player.getValue().uniqueID%>');">eliminate '<%=i_Player.getValue().getName()%>'</button></td>  
-								<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
-								<td><%=i_Player.getValue().getSaveVote()%></td>
-								<td><%=i_Player.getValue().getWhoIEliminate().getName()%></td>
-								<%
-							}else if (!player.isKilled())
-							{
-								%>
-								<td><button onclick="callMethodAndRefresh('Player.jsp','#players_div','eliminatePlayer','<%=i_Player.getValue().uniqueID%>');">eliminate '<%=i_Player.getValue().getName()%>'</button></td>   
-								<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
-								<td><%=i_Player.getValue().getEliminateVote()%></td>
-								<td></td>
-								<%
 							}else 
 							{
-								%>
-								<td><%=i_Player.getValue().getName()%></button></td>   
-								<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
-								<td><%=i_Player.getValue().getEliminateVote()%></td>
-								<td></td>
-								<%
+								//if(!player.isKilled()  && i_Player.getValue().getWhoIEliminate()!=null)
+								if(player==i_Player.getValue()) 
+								{
+									%>
+									<td><%=i_Player.getValue().getName()%></button></td>  
+									<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
+									<td><%=i_Player.getValue().getEliminateVote()%></td>
+									<% 
+									if(i_Player.getValue().getWhoIEliminate()==null)
+									{
+										%><td></td><% 
+									}else
+									{
+										%><td><%=i_Player.getValue().getWhoIEliminate().getName()%></td><% 
+									}
+								}else if (!player.isKilled())
+								{
+									%>
+									<td><button onclick="callMethodAndRefresh('Player.jsp','#players_div','eliminatePlayer','<%=i_Player.getValue().uniqueID%>');">eliminate '<%=i_Player.getValue().getName()%>'</button></td>   
+									<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
+									<td><%=i_Player.getValue().getEliminateVote()%></td> 
+									<%
+									if(i_Player.getValue().getWhoIEliminate()==null)
+									{
+										%><td></td><% 
+									}else
+									{
+										%><td><%=i_Player.getValue().getWhoIEliminate().getName()%></td><% 
+									}
+								}else 
+								{
+									%>
+									<td><%=i_Player.getValue().getName()%></button></td>   
+									<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
+									<td><%=i_Player.getValue().getEliminateVote()%></td>
+									<td></td>
+									<%
+								}
 							}
 						
 						%>

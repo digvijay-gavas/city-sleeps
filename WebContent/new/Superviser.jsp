@@ -70,10 +70,20 @@
 					<tr>
 						<th>Player</th>
 						<th>Role</th>
-						<th>kill Vote</th>
-						<th>Identify Vote</th>
-						<th>Save Vote</th>
-						<th>Can kill</th>
+						<%
+						if(game.getState()==Game.city_sleeps_mafia_kill_someone_detective_identify_someone_and_doctor_save_someone) 
+						{
+							%>
+							<th>kill Vote</th>
+							<th>Identify Vote</th>
+							<th>Save Vote</th>
+							<th>Can kill</th>
+							<%
+						} else  if(game.getState()==Game.city_wake_up_and_elimimate_someone) 
+						{
+							%><th>Eliminate Votes</th><%
+						} 
+						%>
 		
 					</tr><%
 					for (Map.Entry<String, Player> player : players.entrySet()) 
@@ -82,10 +92,23 @@
 						<tr <%=player.getValue().isKilled()?"style=\"background-color:#AA5555\"":""%>>
 							<td><%=player.getValue().getName()%></td> 
 							<td><%=Constant.GAME_ROLES[player.getValue().getRole()]%></td>
+							
+							
+							
+							<%
+						if(game.getState()==Game.city_sleeps_mafia_kill_someone_detective_identify_someone_and_doctor_save_someone) 
+						{
+							%>
 							<td><%=player.getValue().getKillVote()%></td>
 							<td><%=player.getValue().getIdentifyVote()%></td>
 							<td><%=player.getValue().getSaveVote()%></td>
 							<td><%=player.getValue().canKill()?"Yes":""%></td>
+							<%
+						} else  if(game.getState()==Game.city_wake_up_and_elimimate_someone) 
+						{
+							%><td><%=player.getValue().getEliminateVote()%></td><%
+						} 
+						%>
 						</tr>
 						<%
 					}
@@ -149,7 +172,21 @@
 			<br>
 			<br>
 			<br>
+			----------------TESTING----------------------------------------------------------------------------
+			<br>
 			<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','resetGame');">RESET</button>
+			<br>
+			<select id="goto_step">
+				<%
+				for(int i=0;i<Constant.GAME_STATES.length;i++)
+				{
+					%>
+					<option value="<%=i%>"><%=Constant.GAME_STATES[i]%></option>
+					<%
+				}
+				%>
+			</select>
+			<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','goToStep',document.getElementById('goto_step').options[document.getElementById('goto_step').selectedIndex].value);">GO</button>
 		</div>
 	<%} %>
 	</body>
