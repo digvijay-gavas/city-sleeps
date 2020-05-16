@@ -89,7 +89,18 @@
 					for (Map.Entry<String, Player> player : players.entrySet()) 
 					{
 						%>
-						<tr <%=player.getValue().isKilled()?"style=\"background-color:#AA5555\"":""%>>
+						<tr 
+						<%
+						if(!player.getValue().isInGame())
+						{
+							%>style="background-color:#AAAAAA"<%
+						}
+						else if(player.getValue().isKilled())
+						{
+							%>style="background-color:#FFAAAA"<%
+						}
+						%> 
+						> 
 							<td><%=player.getValue().getName()%></td> 
 							<td><%=Constant.GAME_ROLES[player.getValue().getRole()]%></td>
 							
@@ -175,6 +186,10 @@
 			<br>
 			<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','resetGame');">RESET</button>
 			<br>
+			_________________________________________________________________________________
+			<br>
+			<br>
+			Force Goto Game state
 			<select id="goto_step">
 				<%
 				for(int i=0;i<Constant.GAME_STATES.length;i++)
@@ -185,7 +200,46 @@
 				}
 				%>
 			</select>
+			<br>
 			<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','goToStep',document.getElementById('goto_step').options[document.getElementById('goto_step').selectedIndex].value);">GO</button>
+			<br>
+			_________________________________________________________________________________<br>
+			Force Eliminate player
+			
+			<select id="remove_player">
+			<% 
+			for (Map.Entry<String, Player> player : players.entrySet()) 
+			{
+				if(player.getValue().isInGame())
+				{
+					%><option type="radio" value="<%=player.getValue().uniqueID%>"><%=player.getValue().getName()%></option><%
+				}
+			}
+				
+			%>
+			</select>
+			<br>
+			<br> 
+			<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','forceRemovePlayer',document.getElementById('remove_player').options[document.getElementById('remove_player').selectedIndex].value);">REMOVE</button>
+			<br>
+			_________________________________________________________________________________<br>
+			Force Add player
+			
+			<select id="add_player">
+			<% 
+			for (Map.Entry<String, Player> player : players.entrySet()) 
+			{
+				if(!player.getValue().isInGame())
+				{
+					%><option type="radio" value="<%=player.getValue().uniqueID%>"><%=player.getValue().getName()%></option><%
+				}
+			}
+				
+			%>
+			</select>
+			<br>
+			<br> 
+			<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','forceAddPlayer',document.getElementById('add_player').options[document.getElementById('add_player').selectedIndex].value);">ADD</button>
 		</div>
 	<%} %>
 	</body>

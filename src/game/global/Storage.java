@@ -97,11 +97,11 @@ public class Storage {
 		else /*changing vote*/
 		{
 			
-			games.get(game_name).get(already_voted_player_name)[GAME_COLUMN.votes]
-					=addVote(games.get(game_name).get(already_voted_player_name)[1],-1);
-			games.get(game_name).get(voted_player_name)[1]
-					=addVote(games.get(game_name).get(voted_player_name)[1],1);
-			games.get(game_name).get(player_name)[2] = voted_player_name /* whoIvoted */;
+//			 games.get(game_name).get(already_voted_player_name)[GAME_COLUMN.votes]
+//					=addVote(games.get(game_name).get(already_voted_player_name)[1],-1);
+//			games.get(game_name).get(voted_player_name)[1]
+//					=addVote(games.get(game_name).get(voted_player_name)[1],1);
+//			games.get(game_name).get(player_name)[2] = voted_player_name /* whoIvoted */;
 		}
 	}
 	
@@ -120,9 +120,9 @@ public class Storage {
 	}
 	
 	public static String whoIVoted(String game_name,String player_name) {
-		if(games.get(game_name).get(player_name)[2]!=null)
+//		if(games.get(game_name).get(player_name)[2]!=null)
 		{
-			return games.get(game_name).get(player_name)[2];
+//			return games.get(game_name).get(player_name)[2];
 		}
 		return null;
 	}
@@ -133,9 +133,9 @@ public class Storage {
 	}
 
 	public static boolean canMafiaKill(String game_name,String player_name) {
-		if (getNextGameStateInt(game_name)==5/*Mafia kill someone*/ && Storage.getPlayers(game_name).get(player_name)[0].equalsIgnoreCase("Mafia"))
+//		if (getNextGameStateInt(game_name)==5/*Mafia kill someone*/ && Storage.getPlayers(game_name).get(player_name)[0].equalsIgnoreCase("Mafia"))
 			return true;
-		return false;
+//		return false;
 	}
 	
 	public static void startGame(String game_name, int no_of_mafia, int no_of_detective, int no_of_doctor) {
@@ -143,7 +143,7 @@ public class Storage {
 		if (games_states.get(game_name)[0] != 0/* waiting */)
 			return;
 		games_states.get(game_name)[0] = 1/* started */;
-		Map<String, String[]> players = games.get(game_name);
+		Map<String, String[]> players = null;//games.get(game_name);
 		int size = players.size();
 		Random random = new Random();
 		int toss = 0;

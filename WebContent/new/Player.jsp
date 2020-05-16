@@ -121,7 +121,18 @@
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 					{ 
 						%>
-						<tr <%=i_Player.getValue().isKilled()?"style=\"background-color:#AA5555\"":""%> >
+						<tr 
+						<%
+						if(!i_Player.getValue().isInGame())
+						{
+							%>style="background-color:#AAAAAA"<%
+						}
+						else if(i_Player.getValue().isKilled())
+						{
+							%>style="background-color:#FFAAAA"<%
+						}
+						%> 
+						>
 							<%
 
 							if(player.getRole()==Player.Mafia && !i_Player.getValue().isKilled())
@@ -227,7 +238,18 @@
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 					{
 						%>
-						<tr <%=i_Player.getValue().isKilled()?"style=\"background-color:#AA5555\"":""%> >
+						<tr 
+						<%
+						if(!i_Player.getValue().isInGame())
+						{
+							%>style="background-color:#AAAAAA"<%
+						}
+						else if(i_Player.getValue().isKilled())
+						{
+							%>style="background-color:#FFAAAA"<%
+						}
+						%> 
+						>
 						<%
 							if(i_Player.getValue().isKilled())
 							{
@@ -288,7 +310,18 @@
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 					{
 						%>
-						<tr  <%=i_Player.getValue().isKilled()?"style=\"background-color:#AA5555\"":""%> >
+						<tr 
+						<%
+						if(!i_Player.getValue().isInGame())
+						{
+							%>style="background-color:#AAAAAA"<%
+						}
+						else if(i_Player.getValue().isKilled())
+						{
+							%>style="background-color:#FFAAAA"<%
+						}
+						%> 
+						>
 							<td><%=i_Player.getValue().getName()%></td> 
 							<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian ?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
 							<td></td>

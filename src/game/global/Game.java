@@ -65,6 +65,8 @@ public class Game {
 	}
 	
 	public String assignRoles(int no_of_mafia, int no_of_detective, int no_of_doctor) {
+		if (state!=START_STATE)
+			return "Not permited in current game state ";
 		this.goToNextState();		
 		int size = players.size();
 		Random random = new Random();
@@ -121,22 +123,32 @@ public class Game {
 
 	public String killPlayer(String player_uniqueID, String whom__uniqueID)
 	{
+		if (state!=city_sleeps_mafia_kill_someone_detective_identify_someone_and_doctor_save_someone)
+			return "Not permited in current game state ";
+		Player eliminated_player=null;
 		players.get(player_uniqueID).killOtherPlayer(players.get(whom__uniqueID));
 		return whom__uniqueID;
 	}
 	
 	public String identifyPlayer(String player_uniqueID, String whom__uniqueID)
 	{
+		if (state!=city_sleeps_mafia_kill_someone_detective_identify_someone_and_doctor_save_someone)
+			return "Not permited in current game state ";
 		players.get(player_uniqueID).identifyOtherPlayer(players.get(whom__uniqueID));
 		return whom__uniqueID;
 	}
 	public String savePlayer(String player_uniqueID, String whom__uniqueID)
 	{
+		if (state!=city_sleeps_mafia_kill_someone_detective_identify_someone_and_doctor_save_someone)
+			return "Not permited in current game state ";
 		players.get(player_uniqueID).saveOtherPlayer(players.get(whom__uniqueID));
 		return whom__uniqueID;
 	}
 	public String eliminatePlayer(String player_uniqueID, String whom__uniqueID)
 	{
+		if (state!=city_wake_up_and_elimimate_someone)
+			return "Not permited in current game state ";
+		Player eliminated_player=null;
 		players.get(player_uniqueID).eliminateOtherPlayer(players.get(whom__uniqueID));
 		return whom__uniqueID;
 	}
@@ -200,20 +212,26 @@ public class Game {
 	
 	public String calulateAndKill()
 	{
+		if (state!=city_sleeps_mafia_kill_someone_detective_identify_someone_and_doctor_save_someone)
+			return "Not permited in current game state ";
+		Player eliminated_player=null;
 		boolean does_all_Mafia_voted=true;
 		boolean does_all_Detective_voted=true;
 		boolean does_all_Doctors_voted=true;
 		for (Map.Entry<String, Player> player : players.entrySet()) 
 		{
-			if(player.getValue().getRole()==Player.Mafia 
-			   && player.getValue().getWhoIKilled()==null)
-				does_all_Mafia_voted=false;
-			if(player.getValue().getRole()==Player.Detective 
-					   && player.getValue().getWhoIIdentified()==null)
-						does_all_Detective_voted=false;
-			if(player.getValue().getRole()==Player.Doctor 
-					   && player.getValue().getWhoISaved()==null)
-						does_all_Doctors_voted=false;
+			if(player.getValue().isInGame() && !player.getValue().isKilled())
+			{
+				if(player.getValue().getRole()==Player.Mafia 
+				   && player.getValue().getWhoIKilled()==null)
+					does_all_Mafia_voted=false;
+				if(player.getValue().getRole()==Player.Detective 
+						   && player.getValue().getWhoIIdentified()==null)
+							does_all_Detective_voted=false;
+				if(player.getValue().getRole()==Player.Doctor 
+						   && player.getValue().getWhoISaved()==null)
+							does_all_Doctors_voted=false;
+			}
 		}
 		if(  does_all_Mafia_voted
 		  && does_all_Detective_voted
@@ -236,35 +254,56 @@ public class Game {
 	
 	public String calulateAndEliminate()
 	{
+		if (state!=city_wake_up_and_elimimate_someone)
+			return "Not permited in current game state ";
 		Player eliminated_player=null;
 		int max_votes=0;
 		boolean isTie=false;
+		
+		boolean does_all_Voted=true;
 		for (Map.Entry<String, Player> player : players.entrySet()) 
 		{
-			if(player.getValue().getEliminateVote() > max_votes)
-			{
-				eliminated_player=player.getValue();
-				max_votes=player.getValue().getEliminateVote();
-				isTie=false;
-			} else if(player.getValue().getEliminateVote() == max_votes)
-			{
-				eliminated_player=player.getValue();
-				max_votes=player.getValue().getEliminateVote();
-				isTie=true;
-			}
+			if(player.getValue().isInGame() && !player.getValue().isKilled() && player.getValue().getWhoIEliminate()==null)
+				does_all_Voted=false;
 		}
 		
-		if(!isTie && eliminated_player!=null && max_votes >0)
+		if(does_all_Voted)
 		{
-			eliminated_player.kill();
-			this.goToNextState();
-			this.resetPlayers();
+			for (Map.Entry<String, Player> player : players.entrySet()) 
+			{
+				if(player.getValue().isInGame() && !player.getValue().isKilled())
+				{
+					if(player.getValue().getEliminateVote() > max_votes)
+					{
+						eliminated_player=player.getValue();
+						max_votes=player.getValue().getEliminateVote();
+						isTie=false;
+					} else if(player.getValue().getEliminateVote() == max_votes)
+					{
+						eliminated_player=player.getValue();
+						max_votes=player.getValue().getEliminateVote();
+						isTie=true;
+					}
+				}
+			}
+			
+			if(!isTie && eliminated_player!=null && max_votes >0)
+			{
+				eliminated_player.kill();
+				this.goToNextState();
+				this.resetPlayers();
+			}
+			else
+				return "Cannot eliminate playet, Tie !!!";
+		}else
+		{
+			return "Not all voted ";
 		}
-		else
-			return "Cannot eliminate playet, Tie !!!";
+		
 		return "";
 	}
 	
+	// ----------------------------- TESTING -------------------------
 	public void resetPlayers()
 	{
 		for (Map.Entry<String, Player> player : players.entrySet()) 
@@ -282,5 +321,18 @@ public class Game {
 		}
 		return "";
 	}
+	
+	public String forceRemovePlayer(String player_uniqueID)
+	{		
+		players.get(player_uniqueID).removeFromGame();
+		return "";
+	}
+	
+	public String forceAddPlayer(String player_uniqueID)
+	{		
+		players.get(player_uniqueID).addInGame();
+		return "";
+	}
+	
 	
 }

@@ -84,5 +84,19 @@ else if(method_name.equalsIgnoreCase("goToStep"))
 	GamesStorage.getGame(request.getParameter("game_uniqueID")).state=Integer.parseInt(request.getParameter("arg1"));
 	%><%=return_value%><%
 }
+else if(method_name.equalsIgnoreCase("forceRemovePlayer"))
+{
+	return_value=GamesStorage.getGame(request.getParameter("game_uniqueID")).forceRemovePlayer(
+			request.getParameter("arg1")
+			);
+	%><%=return_value%><%
+}
+else if(method_name.equalsIgnoreCase("forceAddPlayer"))
+{
+	return_value=GamesStorage.getGame(request.getParameter("game_uniqueID")).forceAddPlayer(
+			request.getParameter("arg1")
+			);
+	%><%=return_value%><%
+}
 	
 %>

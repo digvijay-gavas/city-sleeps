@@ -13,6 +13,7 @@ public class Player {
     private int eliminateVote = 0;
     
     private boolean isKilled = false;
+    private boolean isInGame = true;
     //Player whoKilledme=null;
     Player whoIKilled=null;
     Player whoIIdentified=null;
@@ -239,6 +240,19 @@ public class Player {
 		isKilled=true;
 	}
 
+	public void addInGame()
+	{
+		isInGame=true;
+	}
+	public void removeFromGame()
+	{
+		isInGame=false;
+	}
+	
+	public boolean isInGame()
+	{
+		return isInGame;
+	}
 	public void reset() {
 	    this.killVote = 0;
 	    this.identifyVote = 0;
@@ -256,5 +270,7 @@ public class Player {
 		isKilled=false;
 		this.reset();
 	}
+	
+	
     
 }
