@@ -5,12 +5,61 @@ public class Constant {
 			"waiting",                      /*0*/
 			"Start",                        /*1*/
 			"Assign Roles",                  /*2*/
-			"city sleeps."
+			"City sleeps."
 			+ "Mafia kill someone "
 			+ "Detective identify someone"
 			+ "and Doctor save someone",                  /*3*/
 			"city_wake_up_and_elimimate_someone",                /*4*/
-};
+	};
+	
+	public static String[] GAME_STATES_CIVILIAN = new String[] { 
+			"waiting",                       /*0*/
+			"Start",                         /*1*/
+			"Assign Roles",                  /*2*/
+			"City Sleeps..",        /*3*/
+			"Eliminate someone",             /*4*/
+	};
+	
+	public static String[] GAME_STATES_MAFIA = new String[] { 
+			"waiting",                       /*0*/
+			"Start",                         /*1*/
+			"Assign Roles",                  /*2*/
+			"Mafias kill someone....",        /*3*/
+			"Eliminate someone",             /*4*/
+	};
+	
+	public static String[] GAME_STATES_DETECTIVE = new String[] { 
+			"waiting",                         /*0*/
+			"Start",                           /*1*/
+			"Assign Roles",                    /*2*/
+			"Detectives identify someone....", /*3*/
+			"Eliminate someone",               /*4*/
+	};
+	
+	public static String[] GAME_STATES_DOCTOR = new String[] { 
+			"waiting",                         /*0*/
+			"Start",                           /*1*/
+			"Assign Roles",                    /*2*/
+			"Doctor save someone....",         /*3*/
+			"Eliminate someone",               /*4*/
+	};
+	
+	public static String getGameStateString(int state, int role)
+	{
+		switch (role) {
+		case Player.Civilian:
+			return  GAME_STATES_CIVILIAN[state];
+		case Player.Mafia:
+			return  GAME_STATES_MAFIA[state];
+		case Player.Detective:
+			return  GAME_STATES_DETECTIVE[state];
+		case Player.Doctor:
+			return  GAME_STATES_DOCTOR[state];
+		default:
+			return  GAME_STATES[state];
+		}
+	}
+	
 	
 	public static String[] GAME_STATES_old = new String[] { 
 			"waiting",                      /*0*/

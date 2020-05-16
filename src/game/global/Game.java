@@ -1,6 +1,9 @@
 package game.global;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -10,6 +13,12 @@ public class Game {
 	private Map<String, Player> players=new HashMap<String, Player>();
 	public final String uniqueID = UUID.randomUUID().toString();
 	String name;
+	private String status_message="";
+	private String status_message_for_Save="";
+	private String status_message_for_Mafia="";
+	private String status_message_for_Detective="";
+	private String status_message_for_Doctor="";
+	
 	public  int state=0;
 
 	/*final public static int waiting = 0 ;
@@ -41,9 +50,17 @@ public class Game {
 	final public static int LOOP_BACK = 3;
 	
 	final public static int min_no_of_players = 5;
+	long startTime=0;
 	
+	
+	
+	public long getStartTime() {
+		return startTime;
+	}
+
 	public Game(String name) {
 
+		startTime=System.currentTimeMillis();
 		this.name=name;
 	}
 
@@ -214,7 +231,16 @@ public class Game {
 	{
 		if (state!=city_sleeps_mafia_kill_someone_detective_identify_someone_and_doctor_save_someone)
 			return "Not permited in current game state ";
-		Player eliminated_player=null;
+		
+		status_message="";
+		status_message_for_Save="";
+		status_message_for_Mafia="";
+		status_message_for_Detective="";
+		status_message_for_Doctor="";
+		
+		Player kill_player=null;
+		Player identify_player=null;
+		List<Player> save_player=new ArrayList<Player>();
 		boolean does_all_Mafia_voted=true;
 		boolean does_all_Detective_voted=true;
 		boolean does_all_Doctors_voted=true;
@@ -237,17 +263,120 @@ public class Game {
 		  && does_all_Detective_voted
 		  && does_all_Doctors_voted)
 		{
+			int max_votes_Mafia=0;
+			int max_votes_Detective=0;
+			
+			boolean isTieMafia=false;
+			boolean isTieDetective=false;
+			
+			for (Map.Entry<String, Player> player : players.entrySet()) 
+			{
+				if(player.getValue().isInGame() && !player.getValue().isKilled())
+				{
+					if(player.getValue().getRole()!=Player.Mafia )
+					{
+						if(player.getValue().getKillVote() > max_votes_Mafia)
+						{
+							kill_player=player.getValue();
+							max_votes_Mafia=player.getValue().getKillVote();
+							isTieMafia=false;
+						} else if(player.getValue().getKillVote() == max_votes_Mafia)
+						{
+							kill_player=player.getValue();
+							max_votes_Mafia=player.getValue().getKillVote();
+							isTieMafia=true;
+						}
+					}
+					if(player.getValue().getRole()!=Player.Detective)
+					{
+						if(player.getValue().getIdentifyVote() > max_votes_Detective)
+						{
+							identify_player=player.getValue();
+							max_votes_Detective=player.getValue().getIdentifyVote();
+							isTieDetective=false;
+						} else if(player.getValue().getIdentifyVote() == max_votes_Detective)
+						{
+							identify_player=player.getValue();
+							max_votes_Detective=player.getValue().getIdentifyVote();
+							isTieDetective=true;
+						}
+					} else  if(player.getValue().getRole()==Player.Doctor)
+					{
+						if(player.getValue().getWhoISaved()!=null)
+							save_player.add(player.getValue().getWhoISaved());
+					}
+				}
+			}
+			
+			if(isTieMafia || isTieDetective)
+			{
+				status_message="Cannot eliminate. Tie !!!";
+				status_message_for_Save="Mafia and Detetive are struggling......";
+				status_message_for_Mafia=isTieMafia?"Mafias resolve the Tie":"";
+				status_message_for_Detective=isTieDetective?"Detective resolve the Tie":"";
+				status_message_for_Doctor="Mafia and Detetive are struggling......";
+			}
+			else
+			{
+				for (Iterator savedplayer = save_player.iterator(); savedplayer.hasNext();) {
+					Player player = (Player) savedplayer.next();
+					if(kill_player==savedplayer)
+						kill_player=null;
+				}
+				
+				if(kill_player!=null)
+				{
+					kill_player.kill();
+					status_message+="Mafia killed '"+kill_player.name+"'.";
+				}
+				if(identify_player.getRole()==Player.Mafia)
+				{
+					identify_player.kill();
+					status_message+="Detectives killed Mafia '"+identify_player.name+"'.";
+				}
+				this.goToNextState();
+				this.resetPlayers();
+				
+				status_message_for_Save=status_message;
+				status_message_for_Mafia=status_message;
+				status_message_for_Detective=status_message;
+				status_message_for_Doctor=status_message;
+			}
+				
+			/*if(!isTie && eliminated_player!=null && max_votes >0)
+			{
+				eliminated_player.kill();
+				this.goToNextState();
+				this.resetPlayers();
+			}
+			else
+			{
+				
+				status_message_for_Save=status_message;
+				status_message_for_Mafia=status_message;
+				status_message_for_Detective=status_message;
+				status_message_for_Doctor=status_message;
+				
+				return "Cannot eliminate. Tie !!!";
+			}
+			
+			
+			
 			for (Map.Entry<String, Player> player : players.entrySet()) 
 				if(player.getValue().canKill())
 					player.getValue().kill();
 			this.goToNextState();
-			this.resetPlayers();
-		}	else
+			this.resetPlayers();*/
+		}
+		else
 		{
-			return "one of follwing check failed <br> "
-					+ "does_all_Mafia_voted "+does_all_Mafia_voted
-					+ "does_all_Detective_voted "+does_all_Detective_voted
-					+ "does_all_Doctors_voted "+does_all_Doctors_voted;
+			status_message_for_Save="";
+			status_message_for_Mafia=!does_all_Mafia_voted?"All Mafias not voted":"";
+			status_message_for_Detective=!does_all_Detective_voted?"All Detectives not voted":"";
+			status_message_for_Doctor=!does_all_Doctors_voted?"All Doctors not voted":"";
+			status_message=status_message_for_Mafia+". "+status_message_for_Detective+". "+status_message_for_Doctor;
+			
+			return status_message;
 		}
 		return "";
 	}
@@ -292,17 +421,57 @@ public class Game {
 				eliminated_player.kill();
 				this.goToNextState();
 				this.resetPlayers();
+				
+				status_message="City elimated '"+eliminated_player.name+"'";
+				status_message_for_Save=status_message;
+				status_message_for_Mafia=status_message;
+				status_message_for_Detective=status_message;
+				status_message_for_Doctor=status_message;
 			}
 			else
-				return "Cannot eliminate playet, Tie !!!";
+			{
+				status_message="Cannot eliminate. Tie !!!";
+				status_message_for_Save=status_message;
+				status_message_for_Mafia=status_message;
+				status_message_for_Detective=status_message;
+				status_message_for_Doctor=status_message;
+				
+				return "Cannot eliminate. Tie !!!";
+			}
 		}else
 		{
+			status_message="Not all voted";
+			status_message_for_Save=status_message;
+			status_message_for_Mafia=status_message;
+			status_message_for_Detective=status_message;
+			status_message_for_Doctor=status_message;
+			
 			return "Not all voted ";
 		}
 		
 		return "";
 	}
 	
+	
+	
+	
+	public String getStatusMessage(Player forWhom) {
+		switch (forWhom.getRole()) {
+		case Player.Civilian:
+			return  status_message_for_Save;
+		case Player.Mafia:
+			return  status_message_for_Mafia;
+		case Player.Detective:
+			return  status_message_for_Detective;
+		case Player.Doctor:
+			return  status_message_for_Doctor;
+		default:
+			return  status_message;
+		}
+	}
+
+	
+
 	// ----------------------------- TESTING -------------------------
 	public void resetPlayers()
 	{
