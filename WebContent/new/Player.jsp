@@ -185,7 +185,9 @@
 				<table border="1">
 					<tr>
 						<th>Player</th>
-						<th>Role</th>>
+						<th>Role</th>
+						<th>Votes</th>
+						<th>Voted to</th>
 					</tr><%
 					
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
@@ -209,6 +211,14 @@
 						>
 							<td><%=i_Player.getValue().getName()%></td>  
 							<td><%=Constant.GAME_ROLES[i_Player.getValue().getRole()]%></td>
+							<td><%=i_Player.getValue().getEliminateVote()%></td>
+							<% 
+							if(i_Player.getValue().getWhoIEliminate()!=null)
+							{%>
+								<td><%=i_Player.getValue().getWhoIEliminate().getName()%></td>
+							<%
+							}
+							%>
 						</tr>
 						<%
 					}
