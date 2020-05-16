@@ -22,6 +22,7 @@ public class Player {
     public final String uniqueID = UUID.randomUUID().toString();
     String name;
     
+    final public static int NoOneYet=-1;
     final public static int Civilian=0;
     final public static int Mafia=1;
     final public static int Detective=2;

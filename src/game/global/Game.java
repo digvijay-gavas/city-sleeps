@@ -470,7 +470,26 @@ public class Game {
 		}
 	}
 
-	
+	public int whoWonTheGame()
+	{
+		boolean does_Mafias_wins=true;
+		boolean does_Civilians_wins=true;
+		for (Map.Entry<String, Player> player : players.entrySet()) 
+		{
+			if( ( !player.getValue().isKilled() && player.getValue().isInGame() ) && player.getValue().getRole()==Player.Mafia)
+				does_Civilians_wins=false;
+			else if( ( !player.getValue().isKilled() && player.getValue().isInGame() ) && player.getValue().getRole()!=Player.Mafia)
+				does_Mafias_wins=false;		
+		}
+		
+		if(does_Civilians_wins && !does_Mafias_wins)
+			return Player.Civilian;
+		else if(!does_Civilians_wins && does_Mafias_wins)
+			return Player.Mafia;
+		else 
+			return Player.NoOneYet;
+		
+	}
 
 	// ----------------------------- TESTING -------------------------
 	public void resetPlayers()
