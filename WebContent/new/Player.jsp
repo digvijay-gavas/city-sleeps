@@ -65,9 +65,9 @@
 	else
 	{%>
 	<center>
-		<div id="status_div">
-			<text style="font-size:40px;font-family:Tahoma"><%=game.getName()%></text><br> 
-			<text style="color:#AAAAAA"><%="("+game.uniqueID+")"%></text>
+		<text style="font-size:40px;font-family:Tahoma"><%=game.getName()%></text><br> 
+		<text style="color:#AAAAAA"><%="("+game.uniqueID+")"%></text>
+		<div id="status_div">	
 		</div>
 		
 		<div id="players_div">
@@ -503,7 +503,12 @@
 					}
 				}
 			%>
-		</div>
+		</div> 
+		
+		<jsp:include page="Chat.jsp">
+			<jsp:param name="game_uniqueID" value="<%=game_uniqueID%>" />
+			<jsp:param name="player_uniqueID" value="<%=player_uniqueID%>" />
+		</jsp:include>
 		
 		<%
 		}

@@ -19,6 +19,10 @@ public class Game {
 	private String status_message_for_Detective="";
 	private String status_message_for_Doctor="";
 	
+	private StringBuffer mafia_chat=new StringBuffer();
+	private StringBuffer detective_chat=new StringBuffer();
+	private StringBuffer doctor_chat=new StringBuffer();
+	private StringBuffer civilians_chat=new StringBuffer();
 	public  int state=0;
 
 	/*final public static int waiting = 0 ;
@@ -473,6 +477,15 @@ public class Game {
 			return  status_message;
 		}
 	}
+	
+	public String getStatusMessage() {
+			return  status_message+"<br>"
+					+ "Civilians: "+status_message_for_Save+"<br>"
+					+ "Mafia    : "+status_message_for_Mafia+"<br>"
+					+ "Detective: "+status_message_for_Detective+"<br>"
+					+ "Doctor   : "+status_message_for_Doctor+"<br>";
+		
+	}
 
 	public int whoWonTheGame()
 	{
@@ -526,5 +539,47 @@ public class Game {
 		return "";
 	}
 	
+	
+	// chat---------------------------------
+	public StringBuffer  getMafiaChat()
+	{
+		return mafia_chat;
+	}
+	
+	public StringBuffer getChat(String player_uniqueID)
+	{
+		Player accessingPlayer=players.get(player_uniqueID) ;
+		switch (accessingPlayer.getRole()) {
+		case Player.Mafia:
+			return mafia_chat;
+		case Player.Detective:
+			return detective_chat;
+		case Player.Doctor:
+			return doctor_chat;
+		default:
+			return civilians_chat;
+		}
+	}
+	
+	public void  addChat(String player_uniqueID, String chatMsg)
+	{
+		
+		
+		Player accessingPlayer=players.get(player_uniqueID) ;
+		switch (accessingPlayer.getRole()) {
+		case Player.Mafia:
+			mafia_chat.append(accessingPlayer.getName()+" : "+chatMsg);
+			break;
+		case Player.Detective:
+			detective_chat.append(accessingPlayer.getName()+" : "+chatMsg);
+			break;
+		case Player.Doctor:
+			doctor_chat.append(accessingPlayer.getName()+" : "+chatMsg);
+			break;
+		default:
+			civilians_chat.append(accessingPlayer.getName()+" : "+chatMsg);
+			break;
+		}
+	}
 	
 }

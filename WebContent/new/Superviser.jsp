@@ -38,7 +38,7 @@
 		<jsp:param name="auto_refersh_div" value="#players_div" />
 </jsp:include>
 </head>
-	<body>
+	<body style="font-family:Tahoma">
 	<%
 	if (!GamesStorage.isGameExist(game_uniqueID)) 
 	{
@@ -53,14 +53,20 @@
 	else
 	{
 	%>
+		<text style="font-size:40px;font-family:Tahoma"><%=game.getName()%></text><br> 
+		<text style="color:#AAAAAA"><%="("+game.uniqueID+")"%></text>
 		<div id="status_div">
-		<%=game.getName() + "("+game.uniqueID+")"%>
+		
+			
 		
 		</div>
 		<div id="players_div">
-			<%=System.currentTimeMillis()%>
-			<%=Constant.GAME_STATES[game.getState()]%>
-			<%
+			<text style="font-size:15px;font-family:Tahoma;color:#AAAAAA">Game Time: <b><%=((System.currentTimeMillis()-game.getStartTime() ) / 1000 )%></b> sec </text>
+			<%=Constant.getGameStateString(game.getState(),Player.NoOneYet)%><br>
+			<text style="font-size:15px;font-family:Tahoma;color:#AAAA66"><%=game.getStatusMessage()%></text><%
+				
+				
+				
 				Map<String, Player> players = game.getPlayers();
 				if (!GamesStorage.isGameExist(game.uniqueID)) {
 					%>sorry game expired on server<%
@@ -74,9 +80,9 @@
 						if(game.getState()==Game.city_sleeps_mafia_kill_someone_detective_identify_someone_and_doctor_save_someone) 
 						{
 							%>
-							<th>kill Vote</th>
-							<th>Identify Vote</th>
-							<th>Save Vote</th>
+							<th>kill</th>
+							<th>Identify</th>
+							<th>Save</th>
 							<th>Can kill</th>
 							<%
 						} else  if(game.getState()==Game.city_wake_up_and_elimimate_someone) 

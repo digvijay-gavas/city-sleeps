@@ -5,11 +5,8 @@ public class Constant {
 			"waiting",                      /*0*/
 			"Start",                        /*1*/
 			"Assign Roles",                  /*2*/
-			"City sleeps."
-			+ "Mafia kill someone "
-			+ "Detective identify someone"
-			+ "and Doctor save someone",                  /*3*/
-			"city_wake_up_and_elimimate_someone",                /*4*/
+			"City sleeps",                  /*3*/
+			"Elimimate Someone",                /*4*/
 	};
 	
 	public static String[] GAME_STATES_CIVILIAN = new String[] { 

@@ -72,6 +72,7 @@ else if(method_name.equalsIgnoreCase("calulateAndEliminate"))
 	%><%=return_value%><%
 }
 
+
 //-----------------------------TESTING ----------------------------------------------
 else if(method_name.equalsIgnoreCase("resetGame"))
 {
@@ -98,5 +99,18 @@ else if(method_name.equalsIgnoreCase("forceAddPlayer"))
 			);
 	%><%=return_value%><%
 }
+
+// -------------------------------CHAT---------------------------------------------------
+
+
+else if(method_name.equalsIgnoreCase("addChat"))
+{
+	GamesStorage.getGame(request.getParameter("game_uniqueID")).addChat(
+			request.getParameter("player_uniqueID"),
+			request.getParameter("arg1")
+			); 
+}
+
+
 	
 %>

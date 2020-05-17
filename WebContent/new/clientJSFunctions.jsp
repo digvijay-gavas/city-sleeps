@@ -16,8 +16,17 @@ String auto_refersh=auto_refersh_page+" "+auto_refersh_div;
 		console.log(arg1);
 		console.log(arg2);
 		console.log(arg3);
-		$('#status_div').load('callMethod.jsp',{game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>',name:name,arg1:arg1, arg2:arg2, arg3:arg3 });
-		$('<%=auto_refersh_div%>').load('<%=auto_refersh%>',{game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>'});
+		$.ajax({
+	        type: "POST",
+	        url: 'callMethod.jsp',
+	        data: ({game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>',name:name,arg1:arg1, arg2:arg2, arg3:arg3 }),
+	        dataType: "html",    
+	        success: function(data) { 
+	        },
+	        error: function() {
+	            alert('Error occured');
+	        }
+	    });
 	}
 	
 	function refreshDiv(source,div_id)
