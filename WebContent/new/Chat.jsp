@@ -1,7 +1,9 @@
+<%@page import="game.global.Player"%>
 <%@page import="game.global.GamesStorage"%>
 <%
 String game_uniqueID = request.getParameter("game_uniqueID");
 String player_uniqueID = request.getParameter("player_uniqueID");
+String player_type = request.getParameter("player_type");
 %>
 
 
@@ -95,7 +97,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 <div class="chat-popup" id="chat_div" style="display:block">
  	<div id="chatwindow" class="form-container">
-	    <h1>Chat</h1>
+	    <h1>Chat with other <text id="player_type"><%=player_type%> </text></h1>
 	    <label for="msg"><b>Message</b></label>
 	    <textarea id="chats" class="chats" placeholder="<%=GamesStorage.getGame(game_uniqueID).getChat(player_uniqueID)%>" name="msg" disabled></textarea>
 	    <textarea id="newMsg" type="text" class="newmsg" placeholder="Type message....." name="sentMsg" required onkeyup="send();" autofocus> </textarea>
@@ -116,18 +118,28 @@ function updateChats(){
         dataType: "html",
         // contentType: "application/json; charset=utf-8",    
         success: function(data) {
+        	data=JSON.parse(data);
         	previous_msg=document.getElementById("chats").innerHTML
-        	console.log('previous_msg.length '+previous_msg.length);
-        	console.log('data.length  '+data.length);
-        	if(previous_msg.length!=( data.length-2 ) )
+        	//console.log('previous_msg.length '+previous_msg.length);
+        	//console.log('data.length  '+data.length);
+        	new_mag=atob(data.chats);
+        	if(previous_msg.length!=( new_mag.length-2 ) )
         		document.getElementById("chatwindow").style.display = "block";
-        	document.getElementById("chats").innerHTML=data; 
+        	document.getElementById("chats").innerHTML=new_mag; 
         	$('#chats').scrollTop($('#chats')[0].scrollHeight); 
+        	
+        	document.getElementById("player_type").innerHTML=data.player_type;
+        	if(data.player_role == <%=Player.Civilian%> )
+        	{
+        		document.getElementById("chatwindow").style.display = "none"; 
+        		document.getElementById("startchat").style.display = "none";  
+       		}
+        		
         },
         error: function() {
             console.log('Error Cannot retrive chats');
         }
-    });
+    }); 
 }
 
 setInterval(updateChats, 2000);
@@ -170,6 +182,7 @@ input.addEventListener("keyup", function(event) {
 });*/
 </script>
 
-<button class="open-button" onclick="openForm()">Chat</button>
+
+<button id="startchat" class="open-button" onclick="openForm()">Chat with other <text id="player_type"><%=player_type%> </text></button>
 
 

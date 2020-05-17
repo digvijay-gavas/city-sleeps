@@ -209,6 +209,10 @@ public class Game {
 		{
 			state=START_STATE;
 		}
+		mafia_chat=new StringBuffer();
+		detective_chat=new StringBuffer();
+		doctor_chat=new StringBuffer();
+		civilians_chat=new StringBuffer(); 
 	}
 	
 	public int getNextState() {

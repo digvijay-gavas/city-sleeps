@@ -502,15 +502,15 @@
 						%></table><%
 					}
 				}
-			%>
+			%>	
 		</div> 
-		
-		<jsp:include page="Chat.jsp">
-			<jsp:param name="game_uniqueID" value="<%=game_uniqueID%>" />
-			<jsp:param name="player_uniqueID" value="<%=player_uniqueID%>" />
-		</jsp:include>
-		
-		<%
+				<jsp:include page="Chat.jsp">
+					<jsp:param name="game_uniqueID" value="<%=game_uniqueID%>" />
+					<jsp:param name="player_uniqueID" value="<%=player_uniqueID%>" />
+					<jsp:param name="player_type" value="<%=Constant.GAME_ROLES[player.getRole()]%>" />
+				</jsp:include> 
+			 
+			<%
 		}
 		%>
 	</center>
