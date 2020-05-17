@@ -120,20 +120,28 @@ function updateChats(){
         success: function(data) {
         	data=JSON.parse(data);
         	previous_msg=document.getElementById("chats").innerHTML
-        	//console.log('previous_msg.length '+previous_msg.length);
-        	//console.log('data.length  '+data.length);
+        	
         	new_mag=atob(data.chats);
-        	if(previous_msg.length!=( new_mag.length-2 ) )
+        	
+        	//console.log('previous_msg.length '+previous_msg.length);
+        	//console.log('new_mag.length  '+new_mag.length);
+        	
+        	if(previous_msg.length!=new_mag.length )
         		document.getElementById("chatwindow").style.display = "block";
         	document.getElementById("chats").innerHTML=new_mag; 
         	$('#chats').scrollTop($('#chats')[0].scrollHeight); 
         	
         	document.getElementById("player_type").innerHTML=data.player_type;
+        	document.getElementById("player_type1").innerHTML=data.player_type;
         	if(data.player_role == <%=Player.Civilian%> )
         	{
         		document.getElementById("chatwindow").style.display = "none"; 
         		document.getElementById("startchat").style.display = "none";  
        		}
+       		else
+       		{
+       			document.getElementById("startchat").style.display = "block";  
+       		}	
         		
         },
         error: function() {
@@ -183,6 +191,6 @@ input.addEventListener("keyup", function(event) {
 </script>
 
 
-<button id="startchat" class="open-button" onclick="openForm()">Chat with other <text id="player_type"><%=player_type%> </text></button>
+<button id="startchat" class="open-button" onclick="openForm()">Chat with other <text id="player_type1"><%=player_type%> </text></button>
 
 
