@@ -307,6 +307,10 @@ public class Game {
 					}
 				}
 			}
+			if(max_votes_Detective<=0)
+				isTieDetective=false;
+			if(max_votes_Detective<=0)
+				isTieMafia=false;
 			
 			if(isTieMafia || isTieDetective)
 			{
@@ -327,12 +331,12 @@ public class Game {
 				if(kill_player!=null)
 				{
 					kill_player.kill();
-					status_message+="Mafia killed '"+kill_player.name+"'.";
+					status_message+="Mafia killed someone.....";
 				}
 				if(identify_player.getRole()==Player.Mafia)
 				{
 					identify_player.kill();
-					status_message+="Detectives killed Mafia '"+identify_player.name+"'.";
+					status_message+="Detectives killed one of the Mafia...";
 				}
 				this.goToNextState();
 				this.resetPlayers();

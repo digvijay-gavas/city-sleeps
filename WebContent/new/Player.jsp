@@ -133,6 +133,12 @@
 						>
 							<td><%=i_Player.getValue().getName()%></td>  
 							<td><%=Constant.GAME_ROLES[i_Player.getValue().getRole()]%></td>
+							<%
+							if(i_Player.getValue()==player)
+							{
+								%><td> <---- you </td><%
+							}
+							%>
 						</tr>
 						<%
 					}
@@ -171,6 +177,12 @@
 						>
 							<td><%=i_Player.getValue().getName()%></td>  
 							<td><%=Constant.GAME_ROLES[i_Player.getValue().getRole()]%></td>
+							<%
+							if(i_Player.getValue()==player)
+							{
+								%><td> <---- you </td><%
+							}
+							%>
 						</tr>
 						<%
 					}
@@ -217,6 +229,12 @@
 							{%>
 								<td><%=i_Player.getValue().getWhoIEliminate().getName()%></td>
 							<%
+							}
+							%>
+														<%
+							if(i_Player.getValue()==player)
+							{
+								%><td> <---- you </td><%
 							}
 							%>
 						</tr>
@@ -266,7 +284,7 @@
 		
 									if(player.getRole()==Player.Mafia && !i_Player.getValue().isKilled())
 									{
-										if( player.getWhoIKilled() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Mafia)
+										if( player.getWhoIKilled() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Mafia && i_Player.getValue().isInGame())
 										{
 											%>
 											<td><button onclick="callMethodAndRefresh('Player.jsp','#players_div','killPlayer','<%=i_Player.getValue().uniqueID%>');">kill '<%=i_Player.getValue().getName()%>'</button></td> 
@@ -294,7 +312,7 @@
 												
 									} else if(player.getRole()==Player.Detective && !i_Player.getValue().isKilled())
 									{
-										if( player.getWhoIIdentified() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Detective)
+										if( player.getWhoIIdentified() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Detective && i_Player.getValue().isInGame())
 										{
 											%>
 											<td><button onclick="callMethodAndRefresh('Player.jsp','#players_div','identifyPlayer','<%=i_Player.getValue().uniqueID%>');">identify '<%=i_Player.getValue().getName()%>'</button></td> 
@@ -320,7 +338,7 @@
 											<%
 										}
 												
-									} else if(player.getRole()==Player.Doctor && !i_Player.getValue().isKilled())
+									} else if(player.getRole()==Player.Doctor && !i_Player.getValue().isKilled() && i_Player.getValue().isInGame())
 									{
 										if( player.getWhoISaved() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Doctor)
 										{
@@ -358,6 +376,14 @@
 										<%
 									}
 									%>
+									
+									<%
+									if(i_Player.getValue()==player)
+									{
+										%><td> <---- you </td><%
+									}
+									%>
+									
 								</tr>
 								<%
 							}
@@ -380,7 +406,7 @@
 								%> 
 								>
 								<%
-									if(i_Player.getValue().isKilled())
+									if(i_Player.getValue().isKilled() || !i_Player.getValue().isInGame())
 									{
 										%>
 										<td><%=i_Player.getValue().getName()%></td> 
@@ -431,6 +457,13 @@
 									}
 								
 								%>
+								<%
+									if(i_Player.getValue()==player)
+									{
+										%><td> <---- you </td><%
+									}
+									%>
+									
 								</tr>
 								<%
 							}
@@ -455,6 +488,12 @@
 									<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian ?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
 									<td></td>
 									<td></td>
+									<%
+									if(i_Player.getValue()==player)
+									{
+										%><td> <---- you </td><%
+									}
+									%>
 								</tr>
 								<%
 							}

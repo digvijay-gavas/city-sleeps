@@ -69,6 +69,12 @@
 			<input type="submit"
 				value="Resume game '<%=game.getName()%>' as '<%=player.getName()%>'"></input>
 		</form>
+		
+		<form action="DashBoard.jsp" method="POST">
+			<input type="hidden" value="<%=game.uniqueID%>" name="game_name"></input>
+			<input type="hidden" value="true" name="end_game"></input>
+			<input type="submit" value="End Game'<%=game.getName()%>'"></input>
+		</form>
 		<%
 			} else if (game != null) {
 		%>
