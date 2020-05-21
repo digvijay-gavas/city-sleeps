@@ -88,6 +88,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 				{
 					%><table border="1">
 					<tr>
+						<th>count</th>
 						<th>Player</th>
 						<th>Role</th>
 						<%
@@ -107,21 +108,28 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 						%>
 		
 					</tr><%
+					int count=0;
+					int notInGameCount=0;
+					int killCount=0;
 					for (Map.Entry<String, Player> player : players.entrySet()) 
 					{
+						count++;
 						%>
 						<tr 
 						<%
 						if(!player.getValue().isInGame())
 						{
 							%>style="background-color:#AAAAAA"<%
+							notInGameCount++;
 						}
 						else if(player.getValue().isKilled())
 						{
 							%>style="background-color:#FFAAAA"<%
+							killCount++;
 						}
 						%> 
-						> 
+						>
+							<td><%=count %></td> 
 							<td><%=player.getValue().getName()%></td> 
 							<td><%=Constant.GAME_ROLES[player.getValue().getRole()]%></td>
 							
@@ -142,10 +150,16 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 							%><td><%=player.getValue().getWhoIEliminate()!=null?player.getValue().getWhoIEliminate().getName():""%></td><%
 						} 
 						%>
+						
 						</tr>
 						<%
 					}
-					%></table><%
+					%></table>
+					<h5> Total <%=count %></h5>
+					<h5> Playing <%=count- notInGameCount-killCount%></h5>
+					<h5> Active <%=count-notInGameCount%></h5>
+					<h5> Killed <%=killCount %></h5>
+					<%
 				}
 			%>
 
