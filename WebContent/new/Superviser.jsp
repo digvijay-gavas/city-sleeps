@@ -51,6 +51,8 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 </jsp:include>
 </head>
 	<body style="font-family:Tahoma">
+	
+	<h4>http://<%=request.getHeader("host")%><%=request.getRequestURI().substring(0, request.getRequestURI().lastIndexOf("/"))%>/JoinGame.jsp?game_uniqueID=<%=game_uniqueID%></h4>
 	<%
 	if (!GamesStorage.isGameExist(game_uniqueID)) 
 	{

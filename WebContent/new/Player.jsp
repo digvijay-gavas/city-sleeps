@@ -114,8 +114,8 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 			
 			if(game.whoWonTheGame()==Player.Civilian && (game.getState()!=Game.waiting && game.getState()!=Game.START_STATE ) )
 			{
-				%><br>Civilians Wins !!!!<%
-				%><br>Mafias Loose !!!!<%
+				%><h2 style="color:#33BB33">Civilians Wins !!!!</h2><%
+				%><h3 style="color:#AA3333">Mafias Loose !!!!</h3> <%
 				
 				%>
 				<table border="1">
@@ -158,9 +158,9 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 					</table><%
 			}
 			else if(game.whoWonTheGame()==Player.Mafia)
-			{
-				%><br>Mafias Wins !!!!<%
-				%><br>Civilians Loose !!!!<%
+			{				
+				%><h3 style="color:#33BB33">Mafias Wins !!!!</h3> <%
+				%><h2 style="color:#AA3333">Civilians Loose !!!!</h2><%
 				%>
 				<table border="1">
 					<tr>

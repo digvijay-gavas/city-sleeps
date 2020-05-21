@@ -21,6 +21,7 @@
 		<%
 		String game_uniqueID = null;
 		String player_uniqueID = null; 
+		String game_uniqueID_from_param = request.getParameter("game_uniqueID");
 		Game game = null;
 		Player player = null;
 		
@@ -57,6 +58,8 @@
 				to_delete.setMaxAge(0);
 				to_delete.setPath("/");
 				response.addCookie(to_delete);
+				game_uniqueID = null;
+				player_uniqueID = null; 
 			}
 			
 		%>
@@ -70,22 +73,9 @@
 				value="Resume game '<%=game.getName()%>' as '<%=player.getName()%>'"></input>
 		</form>
 		
-		<form action="DashBoard.jsp" method="POST">
+		<form action="JoinGame.jsp" method="POST">
 			<input type="hidden" value="<%=game.uniqueID%>" name="game_name"></input>
 			<input type="hidden" value="true" name="end_game"></input>
-			<input type="submit" value="End Game'<%=game.getName()%>'"></input>
-		</form>
-		<%
-			} else if (game != null) {
-		%>
-		<form action="Superviser.jsp" method="POST">
-			<input type="hidden" value="<%=game.uniqueID%>" name="game_name"></input>
-			<input type="submit" value="Resume game supervision '<%=game.getName()%>'"></input>
-		</form>
-		
-		<form action="DashBoard.jsp" method="POST">
-			<input type="hidden" value="<%=game.uniqueID%>" name="game_name"></input>
-			<input type="hidden" value="true" name="end_game"></input> 
 			<input type="submit" value="End Game'<%=game.getName()%>'"></input>
 		</form>
 		<%
@@ -93,21 +83,32 @@
 		%>
 		
 		<div id="create_game_div">
-			
-			<input type="text" value="We Are Civilian" id="create_game_name" />  
-			<button onclick="callMethodRedirect('addGame','game_uniqueID','Superviser.jsp',document.getElementById('create_game_name').value,'<%=""+(10000+Math.round(Math.random()*90000))%>');">Create Game</button>
 			<br>
 			<input type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" id="join_player_name" /> 
-			<select id="join_game_uniqueID">
-				<%
-				for ( Map.Entry<String, Game> gameEntry : GamesStorage.getJoinableGames().entrySet())  {
-				
-				%><option value="<%=gameEntry.getKey()%>"><%=gameEntry.getValue().getName() + "(" +gameEntry.getKey()+")"%></option>
-				<%
-					}
+			<% 
+			if(game_uniqueID_from_param!=null)
+			{	
 				%>
-			</select> 
-			<button onclick="setCookie('game_uniqueID',document.getElementById('join_game_uniqueID').options[document.getElementById('join_game_uniqueID').selectedIndex].value,1);callMethodRedirect('joinGame','player_uniqueID','Player.jsp',document.getElementById('join_game_uniqueID').options[document.getElementById('join_game_uniqueID').selectedIndex].value, document.getElementById('join_player_name').value);">Join Game</button>
+				<label><%=GamesStorage.getGame(game_uniqueID_from_param).getName()%></label>
+				<button onclick="setCookie('game_uniqueID','<%=game_uniqueID_from_param%>',1);callMethodRedirect('joinGame','player_uniqueID','Player.jsp','<%=game_uniqueID_from_param%>', document.getElementById('join_player_name').value);">Join Game</button>
+				<%
+			} else
+			{ 
+				%>
+				<select id="join_game_uniqueID">
+					<%
+					for ( Map.Entry<String, Game> gameEntry : GamesStorage.getJoinableGames().entrySet())  {
+					
+					%><option value="<%=gameEntry.getKey()%>"><%=gameEntry.getValue().getName() + "(" +gameEntry.getKey()+")"%></option>
+					<%
+						}
+					%>
+				</select> 
+				<button onclick="setCookie('game_uniqueID',document.getElementById('join_game_uniqueID').options[document.getElementById('join_game_uniqueID').selectedIndex].value,1);callMethodRedirect('joinGame','player_uniqueID','Player.jsp',document.getElementById('join_game_uniqueID').options[document.getElementById('join_game_uniqueID').selectedIndex].value, document.getElementById('join_player_name').value);">Join Game</button>
+				<%
+			} 
+			%>
+			
 
 		</div>
 		<div id="status_div"></div>

@@ -510,9 +510,23 @@ public class Game {
 		}
 		
 		if(does_Civilians_wins && !does_Mafias_wins)
+		{
+			status_message="";
+			status_message_for_Save=status_message;
+			status_message_for_Mafia=status_message;
+			status_message_for_Detective=status_message;
+			status_message_for_Doctor=status_message;
 			return Player.Civilian;
-		else if(!does_Civilians_wins && does_Mafias_wins)
-			return Player.Mafia;
+		}
+		else if(!does_Civilians_wins && does_Mafias_wins)			
+		{
+			status_message="";
+			status_message_for_Save=status_message;
+			status_message_for_Mafia=status_message;
+			status_message_for_Detective=status_message;
+			status_message_for_Doctor=status_message;
+			return Player.Mafia;	
+		}
 		else 
 			return Player.NoOneYet;
 		
