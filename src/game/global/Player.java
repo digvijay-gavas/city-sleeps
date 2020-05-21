@@ -270,6 +270,7 @@ public class Player {
 	{
 		isKilled=false;
 		this.reset();
+		role=Civilian;
 	}
 	
 	

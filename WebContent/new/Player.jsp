@@ -13,6 +13,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+</style>
 <meta charset="UTF-8">
 <%
 	String game_uniqueID = null;
@@ -189,6 +201,50 @@
 					%>
 					</table><%
 			}
+			else if(game.whoWonTheGame()==Player.Mafia)
+			{
+				%><br>Mafias Wins !!!!<%
+				%><br>Civilians Loose !!!!<%
+				%>
+				<table border="1">
+					<tr>
+						<th>Player</th>
+						<th>Role</th>>
+					</tr><%
+					
+					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
+					{ 
+						%>
+						<tr 
+						<%
+						if(!i_Player.getValue().isInGame())
+						{
+							%>style="background-color:#AAAAAA"<%
+						}
+						else if(i_Player.getValue().isKilled())
+						{
+							%>style="background-color:#FFAAAA"<%
+						}
+						else
+						{
+							%>style="background-color:#AAFFAA"<%
+						}
+						%> 
+						>
+							<td><%=i_Player.getValue().getName()%></td>  
+							<td><%=Constant.GAME_ROLES[i_Player.getValue().getRole()]%></td>
+							<%
+							if(i_Player.getValue()==player)
+							{
+								%><td> <---- you </td><%
+							}
+							%>
+						</tr>
+						<%
+					}
+					%>
+					</table><%
+			}
 			else if(player.isKilled())
 			{
 				%><br>You get killed !!!!<%
@@ -199,7 +255,7 @@
 						<th>Player</th>
 						<th>Role</th>
 						<th>Votes</th>
-						<th>Voted to</th>
+						
 					</tr><%
 					
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 

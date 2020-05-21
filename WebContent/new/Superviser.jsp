@@ -13,6 +13,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+</style>
 <meta charset="UTF-8">
 <%
 	String game_uniqueID = null;
@@ -88,6 +100,7 @@
 						} else  if(game.getState()==Game.city_wake_up_and_elimimate_someone) 
 						{
 							%><th>Eliminate Votes</th><%
+							%><th>Votes to </th><%
 						} 
 						%>
 		
@@ -124,6 +137,7 @@
 						} else  if(game.getState()==Game.city_wake_up_and_elimimate_someone) 
 						{
 							%><td><%=player.getValue().getEliminateVote()%></td><%
+							%><td><%=player.getValue().getWhoIEliminate()!=null?player.getValue().getWhoIEliminate().getName():""%></td><%
 						} 
 						%>
 						</tr>
@@ -132,8 +146,30 @@
 					%></table><%
 				}
 			%>
-		</div>
-	
+
+					
+			</div> 
+					<jsp:include page="Chat.jsp">
+							<jsp:param name="game_uniqueID" value="<%=game_uniqueID%>" />
+							<jsp:param name="player_typeID" value="<%=Player.Doctor%>" />
+							<jsp:param name="player_type" value="<%=Constant.GAME_ROLES[Player.Doctor]%>" />
+							<jsp:param name="is_superviser" value="true" />
+							<jsp:param name="windowshift" value="600px" /> 
+					</jsp:include>
+					<jsp:include page="Chat.jsp">
+							<jsp:param name="game_uniqueID" value="<%=game_uniqueID%>" />
+							<jsp:param name="player_typeID" value="<%=Player.Detective%>" />
+							<jsp:param name="player_type" value="<%=Constant.GAME_ROLES[Player.Detective]%>" />
+							<jsp:param name="is_superviser" value="true" />
+							<jsp:param name="windowshift" value="300px" /> 
+					</jsp:include>
+
+					<jsp:include page="Chat.jsp">
+							<jsp:param name="game_uniqueID" value="<%=game_uniqueID%>" />
+							<jsp:param name="player_typeID" value="<%=Player.Mafia%>" />
+							<jsp:param name="player_type" value="<%=Constant.GAME_ROLES[Player.Mafia]%>" />
+							<jsp:param name="is_superviser" value="true" />
+					</jsp:include>
 	
 		<div id="actions_div">
 			
@@ -183,6 +219,8 @@
 				break;
 			}
 			%>
+			
+			 
 			<br>
 			<br>
 			<br>

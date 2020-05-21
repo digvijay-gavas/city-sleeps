@@ -110,7 +110,13 @@ else if(method_name.equalsIgnoreCase("addChat"))
 			request.getParameter("arg1")
 			); 
 }
-
+else if(method_name.equalsIgnoreCase("addChatSuperviser"))
+{
+	GamesStorage.getGame(request.getParameter("game_uniqueID")).addChat(
+			Integer.parseInt(request.getParameter("arg1")),
+			request.getParameter("arg2")
+			); 
+}
 
 	
 %>

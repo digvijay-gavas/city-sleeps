@@ -213,6 +213,12 @@ public class Game {
 		detective_chat=new StringBuffer();
 		doctor_chat=new StringBuffer();
 		civilians_chat=new StringBuffer(); 
+		
+		status_message="";
+		status_message_for_Mafia=status_message;
+		status_message_for_Detective=status_message;
+		status_message_for_Doctor=status_message;
+		status_message_for_Save=status_message;
 	}
 	
 	public int getNextState() {
@@ -528,6 +534,11 @@ public class Game {
 		{
 			player.getValue().hardReset();
 		}
+		status_message="Game reseted";
+		status_message_for_Mafia=status_message;
+		status_message_for_Detective=status_message;
+		status_message_for_Doctor=status_message;
+		status_message_for_Save=status_message;
 		return "";
 	}
 	
@@ -545,9 +556,18 @@ public class Game {
 	
 	
 	// chat---------------------------------
-	public StringBuffer  getMafiaChat()
+	public StringBuffer  getChat(int role)
 	{
-		return mafia_chat;
+		switch (role) {
+		case Player.Mafia:
+			return mafia_chat;
+		case Player.Detective:
+			return detective_chat;
+		case Player.Doctor:
+			return doctor_chat;
+		default:
+			return civilians_chat;
+		}
 	}
 	
 	public StringBuffer getChat(String player_uniqueID)
@@ -582,6 +602,24 @@ public class Game {
 			break;
 		default:
 			civilians_chat.append(accessingPlayer.getName()+" : "+chatMsg);
+			break;
+		}
+	}
+	public void  addChat(int role, String chatMsg)
+	{
+		
+		switch (role) {
+		case Player.Mafia:
+			mafia_chat.append("Superviser : "+chatMsg);
+			break;
+		case Player.Detective:
+			detective_chat.append("Superviser : "+chatMsg);
+			break;
+		case Player.Doctor:
+			doctor_chat.append("Superviser : "+chatMsg);
+			break;
+		default:
+			civilians_chat.append("Superviser : "+chatMsg);
 			break;
 		}
 	}
