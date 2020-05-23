@@ -126,6 +126,15 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 
 <script>
+
+function decodeUnicode(str) {
+	  // Going backwards: from bytestream, to percent-encoding, to original string.
+	  return decodeURIComponent(atob(str).split('').map(function (c) {
+	    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+	  }).join(''));
+	}
+
+
 document.getElementById("chatwindow_<%=player_type%>").style.display = "none";
 function updateChats_<%=player_type%>(){		
 	$.ajax({
@@ -148,7 +157,8 @@ function updateChats_<%=player_type%>(){
         	data=JSON.parse(data);
         	previous_msg=document.getElementById("chats_<%=player_type%>").innerHTML
         	
-        	new_mag=atob(data.chats);
+        	//new_mag=atob(data.chats);
+        	new_mag=decodeUnicode(data.chats);
         	
         	//console.log('previous_msg.length '+previous_msg.length);
         	//console.log('new_mag.length  '+new_mag.length);

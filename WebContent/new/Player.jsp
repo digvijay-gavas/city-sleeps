@@ -248,13 +248,13 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 			else if(player.isKilled())
 			{
 				%><br>You get killed !!!!<%
-				%><br>You can see everyones role now<%
+				%><br>You can still participate by strategically influencing others..<%
 				%>
 				<table border="1">
 					<tr>
 						<th>Player</th>
-						<th>Role</th>
-						<th>Votes</th>
+						
+						<th>Elimination Votes</th>
 						
 					</tr><%
 					
@@ -278,7 +278,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 						%> 
 						>
 							<td><%=i_Player.getValue().getName()%></td>  
-							<td><%=Constant.GAME_ROLES[i_Player.getValue().getRole()]%></td>
+							
 							<td><%=i_Player.getValue().getEliminateVote()%></td>
 							<% 
 							if(i_Player.getValue().getWhoIEliminate()!=null)

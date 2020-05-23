@@ -75,6 +75,12 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 		
 		</div>
 		<div id="players_div">
+		<%
+		if(game.whoWonTheGame()!=Player.NoOneYet)
+		{
+			%><h2><%=Constant.GAME_ROLES[game.whoWonTheGame()]%> won the game</h2><%
+		}
+		%>
 			<text style="font-size:15px;font-family:Tahoma;color:#AAAAAA">Game Time: <b><%=((System.currentTimeMillis()-game.getStartTime() ) / 1000 )%></b> sec </text>
 			<%=Constant.getGameStateString(game.getState(),Player.NoOneYet)%><br>
 			<text style="font-size:15px;font-family:Tahoma;color:#AAAA66"><%=game.getStatusMessage()%></text><%
