@@ -501,12 +501,40 @@ public class Game {
 	{
 		boolean does_Mafias_wins=true;
 		boolean does_Civilians_wins=true;
+		int no_of_Mafia=0;
+		int no_of_Civilians=0;
 		for (Map.Entry<String, Player> player : players.entrySet()) 
 		{
+			
 			if( ( !player.getValue().isKilled() && player.getValue().isInGame() ) && player.getValue().getRole()==Player.Mafia)
+			{
 				does_Civilians_wins=false;
+				no_of_Mafia++;
+			}
 			else if( ( !player.getValue().isKilled() && player.getValue().isInGame() ) && player.getValue().getRole()!=Player.Mafia)
-				does_Mafias_wins=false;		
+			{
+				does_Mafias_wins=false;
+				no_of_Civilians++;
+			}
+		}
+		
+		if(no_of_Mafia==1 && no_of_Civilians==1 && state==Game.city_wake_up_and_elimimate_someone)
+		{
+			status_message="Its Tie !!!!!!!!";
+			status_message_for_Save=status_message;
+			status_message_for_Mafia=status_message;
+			status_message_for_Detective=status_message;
+			status_message_for_Doctor=status_message;
+			return Player.Tie;
+		}
+		else if(no_of_Mafia==0 && no_of_Civilians==0 && ( state==Game.city_wake_up_and_elimimate_someone || state==Game.city_sleeps_mafia_kill_someone_detective_identify_someone_and_doctor_save_someone ))
+		{
+			status_message="EveryOne dies !!!!!!!!";
+			status_message_for_Save=status_message;
+			status_message_for_Mafia=status_message;
+			status_message_for_Detective=status_message;
+			status_message_for_Doctor=status_message;
+			return Player.EveryOneDies;
 		}
 		
 		if(does_Civilians_wins && !does_Mafias_wins)

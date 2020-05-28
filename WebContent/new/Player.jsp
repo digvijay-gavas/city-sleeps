@@ -13,18 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-table {
-  border-collapse: collapse;
-}
-
-th, td {
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {background-color: #f2f2f2;}
-</style>
+<link rel="stylesheet" href="styles/styles.css">
 <meta charset="UTF-8">
 <%
 	String game_uniqueID = null;
@@ -78,6 +67,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 	{%>
 	<center>
 		<text style="font-size:40px;font-family:Tahoma"><%=game.getName()%></text><br> 
+		<text style="font-size:20px;font-family:Tahoma"><%=player.getName()%></text>
+		<!--   button onclick="j">ChangeName</button -->
+		<br> 
+		
 		<text style="color:#AAAAAA"><%="("+game.uniqueID+")"%></text>
 		<div id="status_div">	
 		</div>
@@ -201,10 +194,56 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 					%>
 					</table><%
 			}
-			else if(game.whoWonTheGame()==Player.Mafia)
+			else if(game.whoWonTheGame()==Player.Tie)
 			{
-				%><br>Mafias Wins !!!!<%
-				%><br>Civilians Loose !!!!<%
+							
+				%><h3 style="color:#33BB33">Its Tie !!!!!!</h3> <%
+				%><h2 style="color:#AA3333">Its Tie !!!!!!</h2><%
+				%>
+				<table border="1">
+					<tr>
+						<th>Player</th>
+						<th>Role</th>>
+					</tr><%
+					
+					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
+					{ 
+						%>
+						<tr 
+						<%
+						if(!i_Player.getValue().isInGame())
+						{
+							%>style="background-color:#AAAAAA"<%
+						}
+						else if(i_Player.getValue().isKilled())
+						{
+							%>style="background-color:#FFAAAA"<%
+						}
+						else
+						{
+							%>style="background-color:#AAFFAA"<%
+						}
+						%> 
+						>
+							<td><%=i_Player.getValue().getName()%></td>  
+							<td><%=Constant.GAME_ROLES[i_Player.getValue().getRole()]%></td>
+							<%
+							if(i_Player.getValue()==player)
+							{
+								%><td> <---- you </td><%
+							}
+							%>
+						</tr>
+						<%
+					}
+					%>
+					</table><%
+			}
+			else if(game.whoWonTheGame()==Player.EveryOneDies)
+			{
+							
+				%><h3 style="color:#33BB33">EveryOne Died !!!!!!</h3> <%
+				%><h2 style="color:#AA3333">EveryOne Died !!!!!!</h2><%
 				%>
 				<table border="1">
 					<tr>
@@ -343,7 +382,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 										if( player.getWhoIKilled() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Mafia && i_Player.getValue().isInGame())
 										{
 											%>
-											<td><button onclick="callMethodAndRefresh('Player.jsp','#players_div','killPlayer','<%=i_Player.getValue().uniqueID%>');">kill '<%=i_Player.getValue().getName()%>'</button></td> 
+											<td><button class="button gray short" onclick="callMethodAndRefresh('Player.jsp','#players_div','killPlayer','<%=i_Player.getValue().uniqueID%>');">kill '<%=i_Player.getValue().getName()%>'</button></td> 
 											<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
 											<td><%=i_Player.getValue().getKillVote()%></td>
 											<td></td>
@@ -371,7 +410,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 										if( player.getWhoIIdentified() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Detective && i_Player.getValue().isInGame())
 										{
 											%>
-											<td><button onclick="callMethodAndRefresh('Player.jsp','#players_div','identifyPlayer','<%=i_Player.getValue().uniqueID%>');">identify '<%=i_Player.getValue().getName()%>'</button></td> 
+											<td><button class="button gray short" onclick="callMethodAndRefresh('Player.jsp','#players_div','identifyPlayer','<%=i_Player.getValue().uniqueID%>');">identify '<%=i_Player.getValue().getName()%>'</button></td> 
 											<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
 											<td><%=i_Player.getValue().getIdentifyVote()%></td>
 											<td></td>
@@ -399,7 +438,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 										if( player.getWhoISaved() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Doctor)
 										{
 											%>
-											<td><button onclick="callMethodAndRefresh('Player.jsp','#players_div','savePlayer','<%=i_Player.getValue().uniqueID%>');">save '<%=i_Player.getValue().getName()%>'</button></td> 
+											<td><button class="button gray short" onclick="callMethodAndRefresh('Player.jsp','#players_div','savePlayer','<%=i_Player.getValue().uniqueID%>');">save '<%=i_Player.getValue().getName()%>'</button></td> 
 											<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
 											<td><%=i_Player.getValue().getSaveVote()%></td>
 											<td></td>
@@ -476,7 +515,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 										if(player==i_Player.getValue()) 
 										{
 											%>
-											<td><%=i_Player.getValue().getName()%></button></td>  
+											<td><%=i_Player.getValue().getName()%></td>  
 											<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
 											<td><%=i_Player.getValue().getEliminateVote()%></td>
 											<% 
@@ -490,7 +529,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 										}else if (!player.isKilled())
 										{
 											%>
-											<td><button onclick="callMethodAndRefresh('Player.jsp','#players_div','eliminatePlayer','<%=i_Player.getValue().uniqueID%>');">eliminate '<%=i_Player.getValue().getName()%>'</button></td>   
+											<td><button class="button gray short" onclick="callMethodAndRefresh('Player.jsp','#players_div','eliminatePlayer','<%=i_Player.getValue().uniqueID%>');">eliminate '<%=i_Player.getValue().getName()%>'</button></td>   
 											<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
 											<td><%=i_Player.getValue().getEliminateVote()%></td> 
 											<%
@@ -504,7 +543,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 										}else 
 										{
 											%>
-											<td><%=i_Player.getValue().getName()%></button></td>   
+											<td><%=i_Player.getValue().getName()%></td>   
 											<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
 											<td><%=i_Player.getValue().getEliminateVote()%></td>
 											<td></td>

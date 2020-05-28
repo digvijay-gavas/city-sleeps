@@ -1,0 +1,28 @@
+{
+    "id":"",
+    "name":"",
+    "players": [
+        {
+            "id": "",
+            "name": "digvijay",
+            "role": "mafia",
+            "votes": [
+                {
+                    "kill": 0,
+                    "identify": 0,
+                    "save": 0,
+                    "eliminate": 0
+                }
+            ],
+            "myVotes":{
+                "whoIkilled":"id",
+                "whoIIdentified":"id",
+                "whoISaved":"id",
+                "whoIEliminated":"id"
+
+            },
+            "isAlive": true,
+            "isInGame": true
+        }
+    ]
+}

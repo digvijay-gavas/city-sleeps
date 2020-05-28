@@ -76,9 +76,15 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 		</div>
 		<div id="players_div">
 		<%
-		if(game.whoWonTheGame()!=Player.NoOneYet)
+		if(game.whoWonTheGame()!=Player.NoOneYet && game.whoWonTheGame()!=Player.EveryOneDies && game.whoWonTheGame()!=Player.Tie)
 		{
 			%><h2><%=Constant.GAME_ROLES[game.whoWonTheGame()]%> won the game</h2><%
+		} else if(game.whoWonTheGame()==Player.EveryOneDies)
+		{
+			%><h2>Everyone Died</h2><%
+		} else if(game.whoWonTheGame()==Player.Tie)
+		{
+			%><h2>Its a Tie !!!</h2><% 
 		}
 		%>
 			<text style="font-size:15px;font-family:Tahoma;color:#AAAAAA">Game Time: <b><%=((System.currentTimeMillis()-game.getStartTime() ) / 1000 )%></b> sec </text>
@@ -94,6 +100,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 				{
 					%><table border="1">
 					<tr>
+						<th>REMOVE/ADD</th>
 						<th>count</th>
 						<th>Player</th>
 						<th>Role</th>
@@ -135,6 +142,21 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 						}
 						%> 
 						>
+						
+							<%
+							if(player.getValue().isInGame())
+							{
+								%><td>
+								<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','forceRemovePlayer','<%=player.getValue().uniqueID%>');">REMOVE</button>
+								</td><%
+							}
+							else
+							{
+								%><td>
+								<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','forceAddPlayer','<%=player.getValue().uniqueID%>');">ADD</button>
+								</td><%
+							}
+							%>
 							<td><%=count %></td> 
 							<td><%=player.getValue().getName()%></td> 
 							<td><%=Constant.GAME_ROLES[player.getValue().getRole()]%></td>

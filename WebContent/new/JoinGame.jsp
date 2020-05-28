@@ -11,6 +11,7 @@
 		<meta charset="UTF-8">
 		<title>City-Sleeps</title>
 	<jsp:include page="dasboardJSFunction.jsp"/>
+	<link rel="stylesheet" href="styles/styles.css">
 	</head>
 	<body>
 		<div id="banner_div">
@@ -70,27 +71,46 @@
 			<input type="hidden" value="<%=game.uniqueID%>" name="game_uniqueID"></input>
 			<input type="hidden" value="<%=player.uniqueID%>" name="player_uniqueID"></input>
 			<input type="submit"
-				value="Resume game '<%=game.getName()%>' as '<%=player.getName()%>'"></input>
+				value="Resume game '<%=game.getName()%>' as '<%=player.getName()%>'" class="button" ></input>
 		</form>
 		
-		<form action="JoinGame.jsp" method="POST">
-			<input type="hidden" value="<%=game.uniqueID%>" name="game_name"></input>
-			<input type="hidden" value="true" name="end_game"></input>
-			<input type="submit" value="End Game'<%=game.getName()%>'"></input>
-		</form>
-		<%
+		<% 
+				if(game_uniqueID_from_param!=null && !game_uniqueID_from_param.equalsIgnoreCase(game_uniqueID))
+				{	
+					%>
+					<button onclick="quitAndJoin();" class="button red"  >
+					End Game'<%=game.getName()%>' and join '<%=GamesStorage.getGame(game_uniqueID_from_param).getName()%>'
+					</button>
+					<%		
+				}
+				else if(game_uniqueID_from_param!=game_uniqueID)
+				{
+					%>
+					<button onclick="quit();" class="button red" >
+					End Game'<%=game.getName()%>'
+					</button>
+					<%		
+				}
 			} else {
 		%>
 		
 		<div id="create_game_div">
+		 
+			 
 			<br>
-			<input type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" id="join_player_name" /> 
+			<label style="color:red" id="status_label"> </label>
+			<br>
+			Your Name: 
+			<input required type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" id="join_player_name" /> 
+			<br>
+			Game Name:
 			<% 
 			if(game_uniqueID_from_param!=null)
 			{	
 				%>
 				<label><%=GamesStorage.getGame(game_uniqueID_from_param).getName()%></label>
-				<button onclick="setCookie('game_uniqueID','<%=game_uniqueID_from_param%>',1);callMethodRedirect('joinGame','player_uniqueID','Player.jsp','<%=game_uniqueID_from_param%>', document.getElementById('join_player_name').value);">Join Game</button>
+				<br>
+				<button onclick="joinGame('<%=game_uniqueID_from_param%>' );" class="button">Join Game</button>
 				<%
 			} else
 			{ 
@@ -104,7 +124,8 @@
 						}
 					%>
 				</select> 
-				<button onclick="setCookie('game_uniqueID',document.getElementById('join_game_uniqueID').options[document.getElementById('join_game_uniqueID').selectedIndex].value,1);callMethodRedirect('joinGame','player_uniqueID','Player.jsp',document.getElementById('join_game_uniqueID').options[document.getElementById('join_game_uniqueID').selectedIndex].value, document.getElementById('join_player_name').value);">Join Game</button>
+				<br>	
+				<button onclick="joinGame();" class="button">Join Game</button>
 				<%
 			} 
 			%>
@@ -113,5 +134,64 @@
 		</div>
 		<div id="status_div"></div>
 		<%} %>
+		<script type="text/javascript">
+			var status_label=document.getElementById('status_label');
+			function trim(x) {
+			  return x.replace(/^\s+|\s+$/gm,'');
+			}
+
+			function joinGame(game_uniqueID)
+			{
+				if(game_uniqueID==null)
+				{
+					var game_uniqueID_element=document.getElementById('join_game_uniqueID');
+					var game_uniqueID=trim(game_uniqueID_element.options[game_uniqueID_element.selectedIndex].value)
+				}
+				
+				
+				var player_name=document.getElementById('join_player_name').value;
+				//document.getElementById('join_game_uniqueID').options[document.getElementById('join_game_uniqueID').selectedIndex].value
+				if( trim( player_name) == "" )
+				{
+					// alert('enter player name');
+					status_label.innerHTML='enter player name';
+					return;	
+				} else
+				{
+					setCookie('game_uniqueID',game_uniqueID,1);
+					callMethodRedirect('joinGame','player_uniqueID','Player.jsp',game_uniqueID,player_name);
+				}
+				
+			}
+			
+			function quit()
+			{
+				var r = confirm("Are you sure to quit the game");
+				if (r == true) {
+					setCookie('game_uniqueID','ssssssss',0);
+					setCookie('player_uniqueID','ssssssss',0);
+					document.location = 'JoinGame.jsp';
+				} else {
+					
+				}
+				
+			}
+			
+			function quitAndJoin()
+			{
+				var r = confirm("Are you sure to quit the game");
+				if (r == true) {
+					setCookie('game_uniqueID','ssssssss',0);
+					setCookie('player_uniqueID','ssssssss',0);
+					document.location = window.location;
+				} else {
+					
+				}
+				
+			}
+
+
+			
+		</script>
 	</body>
 </html>

@@ -23,6 +23,8 @@ public class Player {
     String name;
     
     final public static int NoOneYet=-1;
+    final public static int Tie=4;
+    final public static int EveryOneDies=5;
     final public static int Civilian=0;
     final public static int Mafia=1;
     final public static int Detective=2;
