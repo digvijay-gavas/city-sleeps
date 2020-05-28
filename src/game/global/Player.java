@@ -29,8 +29,10 @@ public class Player {
     final public static int Mafia=1;
     final public static int Detective=2;
     final public static int Doctor=3;
+    public long lastSeen=0;
     
     public Player(String name) {
+    	lastSeen=System.currentTimeMillis();
 		this.name=name;
 	}
 

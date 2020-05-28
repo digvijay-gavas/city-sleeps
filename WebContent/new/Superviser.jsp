@@ -13,6 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="styles/styles.css">
 <style>
 table {
   border-collapse: collapse;
@@ -100,6 +101,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 				{
 					%><table border="1">
 					<tr>
+						<th>Last seen</th>
 						<th>REMOVE/ADD</th>
 						<th>count</th>
 						<th>Player</th>
@@ -142,7 +144,19 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 						}
 						%> 
 						>
+						<%
+							long lastSeenSince=(System.currentTimeMillis()-player.getValue().lastSeen)/1000;
+							if(lastSeenSince>20)
+							{
+								%><td><label class="label textred"><%=lastSeenSince%> sec ago</label></td><%
+							}
+							else
+							{ 
+								%><td><label class="label textgray"><%=lastSeenSince%> sec ago</label></td><%
+							}
+						%>
 						
+							
 							<%
 							if(player.getValue().isInGame())
 							{

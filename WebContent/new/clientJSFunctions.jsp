@@ -9,7 +9,7 @@ String auto_refersh=auto_refersh_page+" "+auto_refersh_div;
 <script	src="js/jquery.min.js"></script>
 <script type="text/javascript">
 	setInterval(function(){
-  		$('<%=auto_refersh_div%>').load('<%=auto_refersh%>',{game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>'});}, 2000) 
+  		$('<%=auto_refersh_div%>').load('<%=auto_refersh%>',{game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>'});}, 3000) 
 	function callMethod(name,arg1,arg2,arg3)
 	{
 		console.log(name);

@@ -86,6 +86,9 @@
 		</div>
 		
 		<div id="players_div">
+		<%
+		player.lastSeen=System.currentTimeMillis();
+		%>
 			<text class="label textred"><%=game.whoGetLastEliminated!=null?"<b>"+game.whoGetLastEliminated.getName()+"</b> eliminated my city.<br>":"" %></text>
 			<text class="label textred"><%=game.whoGetLastIdentified!=null?"<b>"+game.whoGetLastIdentified.getName()+"</b>  Mafia identified by Detective.<br>":"" %></text>
 			<text class="label textred"><%=game.whoGetLastKilled!=null?"<b>"+game.whoGetLastKilled.getName()+"</b> Civilian is killed by Mafia.<br>":"" %></text>
