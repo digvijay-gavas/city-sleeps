@@ -345,6 +345,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 			<br> 
 			<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','forceAddPlayer',document.getElementById('add_player').options[document.getElementById('add_player').selectedIndex].value);">ADD</button>
 		</div>
+		<div id="proccessing_request_div" class="processing_gif" ><img alt="" src="image/wait.gif"></div> 
 	<%} %>
 	</body>
 </html>

@@ -52,6 +52,7 @@
 .red {background-color: #f44336;} /* Red */ 
 .gray {background-color: #e7e7e7; color: black;} /* Gray */ 
 .black {background-color: #555555;} /* Black */
+.green {background-color: #4CAF50;} /* Black */
 
 .textblue {color: #008CBA;} /* Blue */
 .textred {color: #f44336;} /* Red */ 
@@ -69,6 +70,7 @@ th, td {
   text-align: left;
   padding: 8px;
 }
+
 tr:nth-child(even) {background-color: #f2f2f2;}
 
 

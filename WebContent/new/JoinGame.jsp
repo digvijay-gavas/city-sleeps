@@ -118,7 +118,7 @@
 				 
 				<br>
 				<label class="label">Your Name:</label> 
-				<input class="inputtext" required type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" id="join_player_name" /> 
+				<input class="inputtext" required type="text" value="" id="join_player_name" /> 
 				<br>
 				
 				<% 
@@ -127,7 +127,7 @@
 					%>
 					<label class="label">Your are joining Game named '<%=GamesStorage.getGame(game_uniqueID_from_param).getName()%>'</label>
 					<br>
-					<button onclick="joinGame('<%=game_uniqueID_from_param%>' );" class="button">Join Game</button>
+					<button id="button_join_game" onclick="joinGame('<%=game_uniqueID_from_param%>' );" class="button">Join Game</button>
 					<%
 				} else
 				{ 
@@ -142,7 +142,7 @@
 						%>
 					</select> 
 					<br>	
-					<button onclick="joinGame();" class="button">Join Game</button>
+					<button  id="button_join_game"  onclick="joinGame();" class="button">Join Game</button>
 					<%
 				} 
 				%>
@@ -171,6 +171,10 @@
 
 			function joinGame(game_uniqueID)
 			{
+				
+				document.getElementById("button_join_game").disabled = true;
+				document.getElementById("button_join_game").classList.add("gray"); 
+				document.getElementById("button_join_game").classList.remove("green"); 
 				if(game_uniqueID==null)
 				{
 					var game_uniqueID_element=document.getElementById('join_game_uniqueID');
@@ -184,6 +188,9 @@
 				{
 					// alert('enter player name');
 					document.getElementById('status_div').innerHTML='enter player name';
+					document.getElementById("button_join_game").disabled = false;
+					document.getElementById("button_join_game").classList.add("green");
+					document.getElementById("button_join_game").classList.remove("gray");
 					return;	
 				} else
 				{

@@ -126,7 +126,7 @@
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 					{ 
 						%>
-						<tr 
+						<tr  
 						<%
 						if(!i_Player.getValue().isInGame())
 						{
@@ -171,7 +171,7 @@
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 					{ 
 						%>
-						<tr 
+						<tr  
 						<%
 						if(!i_Player.getValue().isInGame())
 						{
@@ -216,7 +216,7 @@
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 					{ 
 						%>
-						<tr 
+						<tr  
 						<%
 						if(!i_Player.getValue().isInGame())
 						{
@@ -262,7 +262,7 @@
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 					{ 
 						%>
-						<tr 
+						<tr  
 						<%
 						if(!i_Player.getValue().isInGame())
 						{
@@ -325,7 +325,7 @@
 							for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 							{ 
 								%>
-								<tr 
+								<tr  
 								<%
 								if(!i_Player.getValue().isInGame())
 								{
@@ -450,7 +450,7 @@
 							for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 							{
 								%>
-								<tr 
+								<tr  
 								<%
 								if(!i_Player.getValue().isInGame())
 								{
@@ -528,7 +528,7 @@
 						default:
 							for (Map.Entry<String, Player> i_Player : players.entrySet()) 
 							{
-								%><tr<%
+								%><tr <%
 								if(!i_Player.getValue().isInGame())
 								{
 									%>style="background-color:#AAAAAA"<%

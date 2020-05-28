@@ -616,6 +616,10 @@ public class Game {
 		status_message_for_Detective=status_message;
 		status_message_for_Doctor=status_message;
 		status_message_for_Save=status_message;
+		mafia_chat=new StringBuffer();
+		detective_chat=new StringBuffer();
+		doctor_chat=new StringBuffer();
+		civilians_chat=new StringBuffer();
 		return "";
 	}
 	
