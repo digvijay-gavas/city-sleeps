@@ -25,6 +25,9 @@ public class Game {
 	private StringBuffer civilians_chat=new StringBuffer();
 	public  int state=0;
 
+	public Player whoGetLastIdentified=null;
+	public Player whoGetLastKilled=null;
+	public Player whoGetLastEliminated=null;
 	/*final public static int waiting = 0 ;
 	final public static int assign_roles = 2 ;
 	final public static int city_sleeps = 3 ;
@@ -209,10 +212,10 @@ public class Game {
 		{
 			state=START_STATE;
 		}
-		mafia_chat=new StringBuffer();
-		detective_chat=new StringBuffer();
-		doctor_chat=new StringBuffer();
-		civilians_chat=new StringBuffer(); 
+		//mafia_chat=new StringBuffer();
+		//detective_chat=new StringBuffer();
+		//doctor_chat=new StringBuffer();
+		//civilians_chat=new StringBuffer(); 
 		
 		status_message="";
 		status_message_for_Mafia=status_message;
@@ -345,12 +348,16 @@ public class Game {
 				if(kill_player!=null)
 				{
 					kill_player.kill();
-					status_message+="Mafia killed someone.....";
+					whoGetLastEliminated=null;
+					whoGetLastKilled=kill_player;
+					status_message+="";
 				}
 				if(identify_player.getRole()==Player.Mafia)
 				{
 					identify_player.kill();
-					status_message+="Detectives killed one of the Mafia...";
+					whoGetLastEliminated=null;
+					whoGetLastIdentified=identify_player;
+					status_message+="";
 				}
 				this.goToNextState();
 				this.resetPlayers();
@@ -437,6 +444,9 @@ public class Game {
 			if(!isTie && eliminated_player!=null && max_votes >0)
 			{
 				eliminated_player.kill();
+				whoGetLastEliminated=eliminated_player;
+				whoGetLastIdentified=null;
+				whoGetLastKilled=null;
 				this.goToNextState();
 				this.resetPlayers();
 				

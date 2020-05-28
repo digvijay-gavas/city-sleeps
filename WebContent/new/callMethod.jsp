@@ -35,7 +35,7 @@ else if(method_name.equalsIgnoreCase("killPlayer"))
 			request.getParameter("player_uniqueID"),
 			request.getParameter("arg1")
 			);
-	%><%=return_value%><%
+	%>You voted <b><%=GamesStorage.getGame(request.getParameter("game_uniqueID")).getPlayer(return_value).getName()%> </b><%
 }
 else if(method_name.equalsIgnoreCase("identifyPlayer"))
 {
@@ -43,7 +43,7 @@ else if(method_name.equalsIgnoreCase("identifyPlayer"))
 			request.getParameter("player_uniqueID"),
 			request.getParameter("arg1")
 			);
-	%><%=return_value%><%
+	%>You voted <b><%=GamesStorage.getGame(request.getParameter("game_uniqueID")).getPlayer(return_value).getName()%> </b><%
 }
 else if(method_name.equalsIgnoreCase("savePlayer"))
 {
@@ -51,7 +51,7 @@ else if(method_name.equalsIgnoreCase("savePlayer"))
 			request.getParameter("player_uniqueID"),
 			request.getParameter("arg1")
 			);
-	%><%=return_value%><%
+	%>You voted <b><%=GamesStorage.getGame(request.getParameter("game_uniqueID")).getPlayer(return_value).getName()%> </b><%
 }
 else if(method_name.equalsIgnoreCase("eliminatePlayer"))
 {
@@ -59,7 +59,7 @@ else if(method_name.equalsIgnoreCase("eliminatePlayer"))
 			request.getParameter("player_uniqueID"),
 			request.getParameter("arg1")
 			);
-	%><%=return_value%><%
+	%>You voted <b><%=GamesStorage.getGame(request.getParameter("game_uniqueID")).getPlayer(return_value).getName()%> </b><%
 }
 else if(method_name.equalsIgnoreCase("calulateAndKill"))
 {

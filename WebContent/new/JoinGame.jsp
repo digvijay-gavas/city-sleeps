@@ -19,7 +19,7 @@
 		<div id="player_list_div">
 		</div>
 		
-		<div id="create_game_div">
+		<div id="create_game_div" style="text-align:center;">
 		
 				<%
 				String game_uniqueID = null;
@@ -68,26 +68,43 @@
 				%>
 				<%
 				if (game != null && player != null) {
-				%>
-				<form action="Player.jsp" method="POST">
-					<input type="hidden" value="<%=game.uniqueID%>" name="game_uniqueID"></input>
-					<input type="hidden" value="<%=player.uniqueID%>" name="player_uniqueID"></input>
-					<input type="submit"
-						value="Resume game '<%=game.getName()%>' as '<%=player.getName()%>'" class="button" ></input>
-				</form>
 				
-				<% 
 						if(game_uniqueID_from_param!=null && !game_uniqueID_from_param.equalsIgnoreCase(game_uniqueID) && GamesStorage.getGame(game_uniqueID_from_param)!=null)
 						{	
 							%>
+							
+							<text class="text"> 
+							Your are trying to joint new Game named <b>'<%=GamesStorage.getGame(game_uniqueID_from_param).getName()%>'</b>.<br><br>
+							But you have already joined Game named <b>'<%=game.getName()%>'</b> with <b>'<%=player.getName()%>'</b> name<br>
+							choose what you want to do ..............
+							</text>
+							<br>
 							<button onclick="quitAndJoin();" class="button red"  >
 							Quit Game'<%=game.getName()%>' and join '<%=GamesStorage.getGame(game_uniqueID_from_param).getName()%>'
 							</button>
+							
+							<form action="Player.jsp" method="POST">
+								<input type="hidden" value="<%=game.uniqueID%>" name="game_uniqueID"></input>
+								<input type="hidden" value="<%=player.uniqueID%>" name="player_uniqueID"></input>
+								<input type="submit"
+									value="Resume game '<%=game.getName()%>' as '<%=player.getName()%>'" class="button gray" ></input>
+							</form>
 							<%		
 						}
 						else if(game_uniqueID_from_param!=game_uniqueID)
 						{
 							%>
+							<text class="text"> 
+							Menu
+							</text>
+							
+							<form action="Player.jsp" method="POST">
+								<input type="hidden" value="<%=game.uniqueID%>" name="game_uniqueID"></input>
+								<input type="hidden" value="<%=player.uniqueID%>" name="player_uniqueID"></input>
+								<input type="submit"
+									value="Resume game '<%=game.getName()%>' as '<%=player.getName()%>'" class="button" ></input>
+							</form>
+				
 							<button onclick="quit();" class="button red" >
 							Quit Game'<%=game.getName()%>'
 							</button>
@@ -100,15 +117,15 @@
 			 
 				 
 				<br>
-				Your Name: 
-				<input required type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" id="join_player_name" /> 
+				<label class="label">Your Name:</label> 
+				<input class="inputtext" required type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" id="join_player_name" /> 
 				<br>
-				Game Name:
+				
 				<% 
 				if(game_uniqueID_from_param!=null && GamesStorage.getGame(game_uniqueID_from_param)!=null)
 				{	
 					%>
-					<label><%=GamesStorage.getGame(game_uniqueID_from_param).getName()%></label>
+					<label class="label">Your are joining Game named '<%=GamesStorage.getGame(game_uniqueID_from_param).getName()%>'</label>
 					<br>
 					<button onclick="joinGame('<%=game_uniqueID_from_param%>' );" class="button">Join Game</button>
 					<%

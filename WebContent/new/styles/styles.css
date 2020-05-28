@@ -13,6 +13,34 @@
   cursor: pointer;
 }
 
+.text {
+  color: dark-gray;
+  padding: 10px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  font-family: Tahoma; 
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.inputtext {
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: solid 1px;
+  background: #f1f1f1;
+  resize: none;
+  font-size: 20px;
+  min-height: 10px;
+}
+
+.label {
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  resize: none;
+  font-family: Tahoma; 
+  font-size: 16px;
+  min-height: 10px;
+}
 .short {
 	 padding: 10px 10px;
 	 margin: 0px 0px;
@@ -24,6 +52,11 @@
 .red {background-color: #f44336;} /* Red */ 
 .gray {background-color: #e7e7e7; color: black;} /* Gray */ 
 .black {background-color: #555555;} /* Black */
+
+.textblue {color: #008CBA;} /* Blue */
+.textred {color: #f44336;} /* Red */ 
+.textgray {color: #e7e7e7; color: black;} /* Gray */ 
+.textblack {color: #555555;} /* Black */
 
 
 

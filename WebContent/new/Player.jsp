@@ -86,6 +86,10 @@
 		</div>
 		
 		<div id="players_div">
+			<text class="label textred"><%=game.whoGetLastEliminated!=null?"<b>"+game.whoGetLastEliminated.getName()+"</b> eliminated my city.<br>":"" %></text>
+			<text class="label textred"><%=game.whoGetLastIdentified!=null?"<b>"+game.whoGetLastIdentified.getName()+"</b>  Mafia identified by Detective.<br>":"" %></text>
+			<text class="label textred"><%=game.whoGetLastKilled!=null?"<b>"+game.whoGetLastKilled.getName()+"</b> Civilian is killed by Mafia.<br>":"" %></text>
+			<br>
 			<text style="font-size:15px;font-family:Tahoma;color:#AAAAAA">Game Time: <b><%=((System.currentTimeMillis()-game.getStartTime() ) / 1000 )%></b> sec </text> 
 			<%
 			
@@ -124,7 +128,7 @@
 				<table border="1">
 					<tr>
 						<th>Player</th>
-						<th>Role</th>>
+						<th>Role</th>
 					</tr><%
 					
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
@@ -168,7 +172,7 @@
 				<table border="1">
 					<tr>
 						<th>Player</th>
-						<th>Role</th>>
+						<th>Role</th>
 					</tr><%
 					
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
@@ -213,7 +217,7 @@
 				<table border="1">
 					<tr>
 						<th>Player</th>
-						<th>Role</th>>
+						<th>Role</th>
 					</tr><%
 					
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
@@ -258,7 +262,7 @@
 				<table border="1">
 					<tr>
 						<th>Player</th>
-						<th>Role</th>>
+						<th>Role</th>
 					</tr><%
 					
 					for (Map.Entry<String, Player> i_Player : players.entrySet()) 
@@ -536,7 +540,7 @@
 											{
 												%><td><%=i_Player.getValue().getWhoIEliminate().getName()%></td><% 
 											}
-										}else if (!player.isKilled())
+										}else if (!player.isKilled() &&  i_Player.getValue()!=player.getWhoIEliminate() )
 										{
 											%>
 											<td><button class="button gray short" onclick="callMethodAndRefresh('Player.jsp','#players_div','eliminatePlayer','<%=i_Player.getValue().uniqueID%>');">eliminate '<%=i_Player.getValue().getName()%>'</button></td>   
@@ -556,8 +560,14 @@
 											<td><%=i_Player.getValue().getName()%></td>   
 											<td><%=i_Player.getValue().getRole()==player.getRole() && player.getRole()!=Player.Civilian?Constant.GAME_ROLES[i_Player.getValue().getRole()]:""%></td>
 											<td><%=i_Player.getValue().getEliminateVote()%></td>
-											<td></td>
 											<%
+											if(i_Player.getValue().getWhoIEliminate()==null)
+											{
+												%><td></td><% 
+											}else
+											{
+												%><td><%=i_Player.getValue().getWhoIEliminate().getName()%></td><% 
+											}
 										}
 									}
 								
