@@ -99,7 +99,13 @@ else if(method_name.equalsIgnoreCase("forceAddPlayer"))
 			);
 	%><%=return_value%><%
 }
-
+else if(method_name.equalsIgnoreCase("quitGame"))
+{
+	return_value=GamesStorage.getGame(request.getParameter("game_uniqueID")).forceRemovePlayer(
+			request.getParameter("player_uniqueID")
+			);
+	%><%=return_value%><%
+}
 else if(method_name.equalsIgnoreCase("changeName"))
 {
 	GamesStorage.getGame(request.getParameter("game_uniqueID")).getPlayer(request.getParameter("player_uniqueID")).setName(request.getParameter("arg1"));
@@ -122,6 +128,10 @@ else if(method_name.equalsIgnoreCase("addChatSuperviser"))
 			Integer.parseInt(request.getParameter("arg1")),
 			request.getParameter("arg2")
 			); 
+}
+else if(method_name.equalsIgnoreCase("sendMessageToWhoNotVoted"))
+{
+	GamesStorage.getGame(request.getParameter("game_uniqueID")).sendMessageToWhoNotVoted(); 
 }
 
 	

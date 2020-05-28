@@ -63,6 +63,16 @@
 		to_delete.setMaxAge(0);
 		response.addCookie(to_delete);
 	}
+	else if (game!=null && game.getState()!=Game.waiting && player==null) 
+	{
+		%>Game is already stated you cannot join the game.....<% 
+		Cookie to_delete = new Cookie("game_uniqueID", "");
+		to_delete.setMaxAge(0);
+		response.addCookie(to_delete);
+		to_delete = new Cookie("player_uniqueID", "");
+		to_delete.setMaxAge(0);
+		response.addCookie(to_delete);
+	}
 	else
 	{%>
 	<center>

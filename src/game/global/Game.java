@@ -471,7 +471,32 @@ public class Game {
 	}
 	
 	
-	
+	public void sendMessageToWhoNotVoted()
+	{
+		String Mafia_string="";
+		String Detective_string="";
+		String Doctors_string="";
+		for (Map.Entry<String, Player> player : players.entrySet()) 
+		{
+			if(player.getValue().isInGame() && !player.getValue().isKilled() )
+			{
+				if( player.getValue().getRole()==Player.Mafia 	&& player.getValue().getWhoIKilled()==null)
+					Mafia_string+=player.getValue().getName()+", ";
+				else if( player.getValue().getRole()==Player.Detective 	&& player.getValue().getWhoIIdentified()==null)
+					Detective_string+=player.getValue().getName()+", ";
+				else if( player.getValue().getRole()==Player.Doctor 	&& player.getValue().getWhoISaved()==null)
+					Doctors_string+=player.getValue().getName()+", ";
+			}
+					
+		}
+		
+		if(!Mafia_string.equalsIgnoreCase(""))
+			addChat(Player.Mafia, Mafia_string+"not voted.\n");
+		if(!Detective_string.equalsIgnoreCase(""))
+			addChat(Player.Detective, Detective_string+"not voted.\n");
+		if(!Doctors_string.equalsIgnoreCase(""))
+			addChat(Player.Doctor, Doctors_string+"not voted.\n"); 
+	}
 	
 	public String getStatusMessage(Player forWhom) {
 		switch (forWhom.getRole()) {

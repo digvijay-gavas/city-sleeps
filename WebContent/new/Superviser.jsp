@@ -271,6 +271,8 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 			<br>
 			<br>
 			----------------TESTING----------------------------------------------------------------------------
+			<button onclick="callMethod('sendMessageToWhoNotVoted');">sendMessageToWhoNotVoted</button>
+			
 			<br>
 			<button onclick="callMethodAndRefresh('Superviser.jsp','#actions_div','resetGame');">RESET</button>
 			<br>

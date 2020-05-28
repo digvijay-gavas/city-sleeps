@@ -16,6 +16,8 @@
 .short {
 	 padding: 10px 10px;
 	 margin: 0px 0px;
+	 border: solid 1px;
+	 width: 100%;
 }
 
 .blue {background-color: #008CBA;} /* Blue */

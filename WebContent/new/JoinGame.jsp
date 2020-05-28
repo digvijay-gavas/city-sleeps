@@ -13,129 +13,141 @@
 	<jsp:include page="dasboardJSFunction.jsp"/>
 	<link rel="stylesheet" href="styles/styles.css">
 	</head>
-	<body>
+	<body id="allbody">
 		<div id="banner_div">
 		</div>
 		<div id="player_list_div">
 		</div>
 		
-		<%
-		String game_uniqueID = null;
-		String player_uniqueID = null; 
-		String game_uniqueID_from_param = request.getParameter("game_uniqueID");
-		Game game = null;
-		Player player = null;
+		<div id="create_game_div">
 		
-	
-			Cookie cookie = null;
-			Cookie[] cookies = null;
-			cookies = request.getCookies();
-			if (cookies != null) {
-	
-				for (int i = 0; i < cookies.length; i++) {
-					cookie = cookies[i];
-					if (cookie.getName().equalsIgnoreCase("player_uniqueID")) {
-						//player_uniqueID = new String(Base64.decodeBase64(cookie.getValue()));
-						player_uniqueID = cookie.getValue();
-					} else if (cookie.getName().equalsIgnoreCase("game_uniqueID")) {
-						//game_uniqueID = new String(Base64.decodeBase64(cookie.getValue()));
-						game_uniqueID = cookie.getValue();
+				<%
+				String game_uniqueID = null;
+				String player_uniqueID = null; 
+				String game_uniqueID_from_param = request.getParameter("game_uniqueID");
+				Game game = null;
+				Player player = null;
+				
+			
+					Cookie cookie = null;
+					Cookie[] cookies = null;
+					cookies = request.getCookies();
+					if (cookies != null) {
+			
+						for (int i = 0; i < cookies.length; i++) {
+							cookie = cookies[i];
+							if (cookie.getName().equalsIgnoreCase("player_uniqueID")) {
+								//player_uniqueID = new String(Base64.decodeBase64(cookie.getValue()));
+								player_uniqueID = cookie.getValue();
+							} else if (cookie.getName().equalsIgnoreCase("game_uniqueID")) {
+								//game_uniqueID = new String(Base64.decodeBase64(cookie.getValue()));
+								game_uniqueID = cookie.getValue();
+							}
+						}
 					}
-				}
-			}
-			
-			game = GamesStorage.getGame(game_uniqueID);
-			if(game!=null)
-				player = game.getPlayer(player_uniqueID);
-			
-			if (request.getParameter("end_game") != null && request.getParameter("end_game").equalsIgnoreCase("true"))
-			{
-
-				Cookie to_delete = new Cookie("game_uniqueID", "");
-				to_delete.setMaxAge(0);
-				to_delete.setPath("/");
-				response.addCookie(to_delete);
-				to_delete = new Cookie("player_uniqueID", "");
-				to_delete.setMaxAge(0);
-				to_delete.setPath("/");
-				response.addCookie(to_delete);
-				game_uniqueID = null;
-				player_uniqueID = null; 
-			}
-			
-		%>
-		<%
-		if (game != null && player != null) {
-		%>
-		<form action="Player.jsp" method="POST">
-			<input type="hidden" value="<%=game.uniqueID%>" name="game_uniqueID"></input>
-			<input type="hidden" value="<%=player.uniqueID%>" name="player_uniqueID"></input>
-			<input type="submit"
-				value="Resume game '<%=game.getName()%>' as '<%=player.getName()%>'" class="button" ></input>
-		</form>
+					
+					game = GamesStorage.getGame(game_uniqueID);
+					if(game!=null)
+						player = game.getPlayer(player_uniqueID);
+					
+					if (request.getParameter("end_game") != null && request.getParameter("end_game").equalsIgnoreCase("true"))
+					{
 		
-		<% 
-				if(game_uniqueID_from_param!=null && !game_uniqueID_from_param.equalsIgnoreCase(game_uniqueID))
+						Cookie to_delete = new Cookie("game_uniqueID", "");
+						to_delete.setMaxAge(0);
+						to_delete.setPath("/");
+						response.addCookie(to_delete);
+						to_delete = new Cookie("player_uniqueID", "");
+						to_delete.setMaxAge(0);
+						to_delete.setPath("/");
+						response.addCookie(to_delete);
+						game_uniqueID = null;
+						player_uniqueID = null; 
+					}
+					
+				%>
+				<%
+				if (game != null && player != null) {
+				%>
+				<form action="Player.jsp" method="POST">
+					<input type="hidden" value="<%=game.uniqueID%>" name="game_uniqueID"></input>
+					<input type="hidden" value="<%=player.uniqueID%>" name="player_uniqueID"></input>
+					<input type="submit"
+						value="Resume game '<%=game.getName()%>' as '<%=player.getName()%>'" class="button" ></input>
+				</form>
+				
+				<% 
+						if(game_uniqueID_from_param!=null && !game_uniqueID_from_param.equalsIgnoreCase(game_uniqueID) && GamesStorage.getGame(game_uniqueID_from_param)!=null)
+						{	
+							%>
+							<button onclick="quitAndJoin();" class="button red"  >
+							Quit Game'<%=game.getName()%>' and join '<%=GamesStorage.getGame(game_uniqueID_from_param).getName()%>'
+							</button>
+							<%		
+						}
+						else if(game_uniqueID_from_param!=game_uniqueID)
+						{
+							%>
+							<button onclick="quit();" class="button red" >
+							Quit Game'<%=game.getName()%>'
+							</button>
+							<%		
+						}
+					} else {
+				%>
+			
+			
+			 
+				 
+				<br>
+				Your Name: 
+				<input required type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" id="join_player_name" /> 
+				<br>
+				Game Name:
+				<% 
+				if(game_uniqueID_from_param!=null && GamesStorage.getGame(game_uniqueID_from_param)!=null)
 				{	
 					%>
-					<button onclick="quitAndJoin();" class="button red"  >
-					End Game'<%=game.getName()%>' and join '<%=GamesStorage.getGame(game_uniqueID_from_param).getName()%>'
-					</button>
-					<%		
-				}
-				else if(game_uniqueID_from_param!=game_uniqueID)
-				{
-					%>
-					<button onclick="quit();" class="button red" >
-					End Game'<%=game.getName()%>'
-					</button>
-					<%		
-				}
-			} else {
-		%>
-		
-		<div id="create_game_div">
-		 
-			 
-			<br>
-			<label style="color:red" id="status_label"> </label>
-			<br>
-			Your Name: 
-			<input required type="text" value="Digi<%=" "+(100+Math.round(Math.random()*900))%>" id="join_player_name" /> 
-			<br>
-			Game Name:
-			<% 
-			if(game_uniqueID_from_param!=null)
-			{	
-				%>
-				<label><%=GamesStorage.getGame(game_uniqueID_from_param).getName()%></label>
-				<br>
-				<button onclick="joinGame('<%=game_uniqueID_from_param%>' );" class="button">Join Game</button>
-				<%
-			} else
-			{ 
-				%>
-				<select id="join_game_uniqueID">
+					<label><%=GamesStorage.getGame(game_uniqueID_from_param).getName()%></label>
+					<br>
+					<button onclick="joinGame('<%=game_uniqueID_from_param%>' );" class="button">Join Game</button>
 					<%
-					for ( Map.Entry<String, Game> gameEntry : GamesStorage.getJoinableGames().entrySet())  {
-					
-					%><option value="<%=gameEntry.getKey()%>"><%=gameEntry.getValue().getName() + "(" +gameEntry.getKey()+")"%></option>
-					<%
-						}
+				} else
+				{ 
 					%>
-				</select> 
-				<br>	
-				<button onclick="joinGame();" class="button">Join Game</button>
-				<%
-			} 
-			%>
+					<select id="join_game_uniqueID">
+						<%
+						for ( Map.Entry<String, Game> gameEntry : GamesStorage.getJoinableGames().entrySet())  {
+						
+						%><option value="<%=gameEntry.getKey()%>"><%=gameEntry.getValue().getName() + "(" +gameEntry.getKey()+")"%></option>
+						<%
+							}
+						%>
+					</select> 
+					<br>	
+					<button onclick="joinGame();" class="button">Join Game</button>
+					<%
+				} 
+				%>
 			
 
 		</div>
-		<div id="status_div"></div>
+		<div id="status_div" style="color:red"></div>
 		<%} %>
 		<script type="text/javascript">
-			var status_label=document.getElementById('status_label');
+			// var status_label=document.getElementById('status_div');
+			
+			console.log('---------------'+window.location);
+			$('#create_game_div').load(window.location+' #create_game_div',{game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>'});
+			
+			
+			/*var isFirst=true;
+			if(isFirst)
+			{
+			 	document.location = window.location;
+			 	isFirst=false;
+			}*/
+			
 			function trim(x) {
 			  return x.replace(/^\s+|\s+$/gm,'');
 			}
@@ -154,7 +166,7 @@
 				if( trim( player_name) == "" )
 				{
 					// alert('enter player name');
-					status_label.innerHTML='enter player name';
+					document.getElementById('status_div').innerHTML='enter player name';
 					return;	
 				} else
 				{
@@ -170,7 +182,22 @@
 				if (r == true) {
 					setCookie('game_uniqueID','ssssssss',0);
 					setCookie('player_uniqueID','ssssssss',0);
-					document.location = 'JoinGame.jsp';
+										
+					$.ajax({
+				        type: "POST",
+				        url: 'callMethod.jsp',
+				        data: ({game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>',name:'quitGame'}),
+				        dataType: "html",    
+				        success: function(data) { 
+				        	document.location = 'JoinGame.jsp';
+				        },
+				        error: function() {
+				            alert('Error occured');
+				        }
+				    });
+				
+					
+					
 				} else {
 					
 				}
@@ -183,7 +210,22 @@
 				if (r == true) {
 					setCookie('game_uniqueID','ssssssss',0);
 					setCookie('player_uniqueID','ssssssss',0);
-					document.location = window.location;
+					
+					$.ajax({
+				        type: "POST",
+				        url: 'callMethod.jsp',
+				        data: ({game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>',name:'quitGame'}),
+				        dataType: "html",    
+				        success: function(data) { 
+				        	document.location = window.location;
+				        },
+				        error: function() {
+				            alert('Error occured');
+				        }
+				    });
+					
+					
+					
 				} else {
 					
 				}

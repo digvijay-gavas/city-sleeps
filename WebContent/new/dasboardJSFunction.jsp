@@ -10,6 +10,7 @@
 	  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 	}
 
+	
 	function callMethodRedirect(name,cookie_name,redirect,arg1,arg2,arg3)
 	{
 		/*var arg1val='';
