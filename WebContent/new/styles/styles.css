@@ -70,3 +70,12 @@ th, td {
   padding: 8px;
 }
 tr:nth-child(even) {background-color: #f2f2f2;}
+
+
+.processing_gif {
+  display:none;'
+  padding: 16px 20px;
+  position: fixed;
+  top: 23px; 
+  width: 280px;
+}

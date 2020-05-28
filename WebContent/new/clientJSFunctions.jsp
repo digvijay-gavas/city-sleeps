@@ -12,18 +12,21 @@ String auto_refersh=auto_refersh_page+" "+auto_refersh_div;
   		$('<%=auto_refersh_div%>').load('<%=auto_refersh%>',{game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>'});}, 3000) 
 	function callMethod(name,arg1,arg2,arg3)
 	{
-		console.log(name);
+		/*console.log(name);
 		console.log(arg1);
 		console.log(arg2);
-		console.log(arg3);
+		console.log(arg3);*/
+		document.getElementById("proccessing_request_div").style.display = "block";
 		$.ajax({
 	        type: "POST",
 	        url: 'callMethod.jsp',
 	        data: ({game_uniqueID:'<%=game_uniqueID%>',player_uniqueID:'<%=player_uniqueID%>',name:name,arg1:arg1, arg2:arg2, arg3:arg3 }),
 	        dataType: "html",    
 	        success: function(data) { 
+	        	document.getElementById("proccessing_request_div").style.display = "none";
 	        },
 	        error: function() {
+	        	document.getElementById("proccessing_request_div").style.display = "none";
 	            alert('Error occured');
 	        }
 	    });
@@ -36,11 +39,11 @@ String auto_refersh=auto_refersh_page+" "+auto_refersh_div;
 	
 	function callMethodAndRefresh(refresh_page,refresh_div,name,arg1,arg2,arg3)
 	{
-		console.log(name);
+		/*console.log(name);
 		console.log(arg1);
 		console.log(arg2);
-		console.log(arg3);
-		
+		console.log(arg3);*/
+		document.getElementById("proccessing_request_div").style.display = "block"; 
 		$.ajax({
 	        type: "POST",
 	        url: 'callMethod.jsp',
@@ -55,9 +58,11 @@ String auto_refersh=auto_refersh_page+" "+auto_refersh_div;
 	        	//console.log('-success');
 	        	//console.log(data[0].gameID);
 	        	document.getElementById('status_div').innerHTML=data
+	        	document.getElementById("proccessing_request_div").style.display = "none";
 	            return data;
 	        },
 	        error: function() {
+	        	document.getElementById("proccessing_request_div").style.display = "none";
 	            alert('Error occured');
 	        }
 	    });

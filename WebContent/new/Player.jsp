@@ -76,6 +76,7 @@
 	else
 	{%>
 	<center>
+		
 		<text style="font-size:40px;font-family:Tahoma"><%=game.getName()%></text><br> 
 		<text style="font-size:20px;font-family:Tahoma"><%=player.getName()%></text>
 		<!--   button onclick="j">ChangeName</button -->
@@ -622,11 +623,13 @@
 				}
 			%>	
 		</div> 
+		<div id="proccessing_request_div" class="processing_gif" ><img alt="" src="image/wait.gif"></div> 
 				<jsp:include page="Chat.jsp">
 					<jsp:param name="game_uniqueID" value="<%=game_uniqueID%>" />
 					<jsp:param name="player_uniqueID" value="<%=player_uniqueID%>" />
 					<jsp:param name="player_type" value="<%=Constant.GAME_ROLES[player.getRole()]%>" />
 				</jsp:include> 
+				
 			 
 			<%
 		}
