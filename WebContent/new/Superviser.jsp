@@ -76,6 +76,9 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 		
 		</div>
 		<div id="players_div">
+		<text class="label textred"><%=game.whoGetLastEliminated!=null?"<b>"+Constant.GAME_ROLES[game.whoGetLastEliminated.getRole()]+" "+game.whoGetLastEliminated.getName()+"</b> eliminated my city.<br>":"" %></text>
+		<text class="label textred"><%=game.whoGetLastIdentified!=null?"<b>"+Constant.GAME_ROLES[game.whoGetLastIdentified.getRole()]+" "+game.whoGetLastIdentified.getName()+"</b> identified by Detective.<br>":"" %></text>
+		<text class="label textred"><%=game.whoGetLastKilled!=null?"<b>"+Constant.GAME_ROLES[game.whoGetLastKilled.getRole()]+" "+game.whoGetLastKilled.getName()+"</b> is killed by Mafia.<br>":"" %></text><br>
 		<%
 		if(game.whoWonTheGame()!=Player.NoOneYet && game.whoWonTheGame()!=Player.EveryOneDies && game.whoWonTheGame()!=Player.Tie)
 		{

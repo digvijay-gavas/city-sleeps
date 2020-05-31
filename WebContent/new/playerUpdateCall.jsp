@@ -39,9 +39,9 @@
 	{
 	%><div id="players_div"><%
 		player.lastSeen=System.currentTimeMillis();
-	%>	<text class="label textred"><%=game.whoGetLastEliminated!=null?"<b>"+game.whoGetLastEliminated.getName()+"</b> eliminated my city.<br>":"" %></text>
-		<text class="label textred"><%=game.whoGetLastIdentified!=null?"<b>"+game.whoGetLastIdentified.getName()+"</b>  Mafia identified by Detective.<br>":"" %></text>
-		<text class="label textred"><%=game.whoGetLastKilled!=null?"<b>"+game.whoGetLastKilled.getName()+"</b> Civilian is killed by Mafia.<br>":"" %></text><br>
+	%>	<text class="label textred"><%=game.whoGetLastEliminated!=null?"<b>"+Constant.GAME_ROLES[game.whoGetLastEliminated.getRole()]+" "+game.whoGetLastEliminated.getName()+"</b> eliminated my city.<br>":"" %></text>
+		<text class="label textred"><%=game.whoGetLastIdentified!=null?"<b>"+Constant.GAME_ROLES[game.whoGetLastIdentified.getRole()]+" "+game.whoGetLastIdentified.getName()+"</b> identified by Detective.<br>":"" %></text>
+		<text class="label textred"><%=game.whoGetLastKilled!=null?"<b>"+Constant.GAME_ROLES[game.whoGetLastKilled.getRole()]+" "+game.whoGetLastKilled.getName()+"</b> is killed by Mafia.<br>":"" %></text><br>
 		<text class="label textgray">Game Time: <b><%=((System.currentTimeMillis()-game.getStartTime() ) / 1000 )%></b> sec</text><br>
 	<%		
 			Map<String, Player> players = game.getPlayers();					
@@ -341,7 +341,7 @@
 		
 									if(player.getRole()==Player.Mafia && !i_Player.getValue().isKilled())
 									{
-										if( player.getWhoIKilled() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Mafia && i_Player.getValue().isInGame())
+										if( player.getWhoIKilled() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Mafia && i_Player.getValue().isInGame() && player.isInGame()  )
 										{
 											%>
 											<td><button class="button gray short" onclick="callMethodAndRefresh('playerUpdateCall.jsp','#players_div','killPlayer','<%=i_Player.getValue().uniqueID%>');">kill '<%=i_Player.getValue().getName()%>'</button></td> 
@@ -369,7 +369,7 @@
 												
 									} else if(player.getRole()==Player.Detective && !i_Player.getValue().isKilled())
 									{
-										if( player.getWhoIIdentified() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Detective && i_Player.getValue().isInGame())
+										if( player.getWhoIIdentified() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Detective && i_Player.getValue().isInGame() && player.isInGame())
 										{
 											%>
 											<td><button class="button gray short" onclick="callMethodAndRefresh('playerUpdateCall.jsp','#players_div','identifyPlayer','<%=i_Player.getValue().uniqueID%>');">identify '<%=i_Player.getValue().getName()%>'</button></td> 
@@ -397,7 +397,7 @@
 												
 									} else if(player.getRole()==Player.Doctor && !i_Player.getValue().isKilled() && i_Player.getValue().isInGame())
 									{
-										if( player.getWhoISaved() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Doctor)
+										if( player.getWhoISaved() != i_Player.getValue() && i_Player.getValue().getRole() != Player.Doctor && player.isInGame())
 										{
 											%>
 											<td><button class="button gray short" onclick="callMethodAndRefresh('playerUpdateCall.jsp','#players_div','savePlayer','<%=i_Player.getValue().uniqueID%>');">save '<%=i_Player.getValue().getName()%>'</button></td> 
@@ -488,7 +488,7 @@
 											{
 												%><td><%=i_Player.getValue().getWhoIEliminate().getName()%></td><% 
 											}
-										}else if (!player.isKilled() &&  i_Player.getValue()!=player.getWhoIEliminate() )
+										}else if (!player.isKilled() &&  i_Player.getValue()!=player.getWhoIEliminate() && player.isInGame())
 										{
 											%>
 											<td><button class="button gray short" onclick="callMethodAndRefresh('playerUpdateCall.jsp','#players_div','eliminatePlayer','<%=i_Player.getValue().uniqueID%>');">eliminate '<%=i_Player.getValue().getName()%>'</button></td>   
