@@ -1,6 +1,6 @@
 # city-sleeps
 
-The game are designed to play in meeting with 10 to 20 players (theoretically  more than 5 peoples, but best for 10 to 20 peoples).
+The game are designed to play in meeting with 10 to 20 players (theoretically  more than 5 people, but best for 10 to 20 peoples).
 The game contains Four roles as Civilians, Mafia, Detectives and Doctor. These role will be randomly selected with maximum of 20% Mafia, 20% Detectives and 20% Doctors. Once game started there are two steps which will loop until game is finished as
 - City sleeps
 - City eliminates someone
