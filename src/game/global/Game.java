@@ -620,6 +620,9 @@ public class Game {
 		detective_chat=new StringBuffer();
 		doctor_chat=new StringBuffer();
 		civilians_chat=new StringBuffer();
+		whoGetLastEliminated=null;
+		whoGetLastIdentified=null;
+		whoGetLastKilled=null;
 		return "";
 	}
 	
