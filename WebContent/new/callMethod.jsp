@@ -1,6 +1,5 @@
 
 <%@page import="game.global.GamesStorage"%>
-<%@page import="game.global.Storage"%>
 <%
 response.setContentType("application/json");
 response.setHeader("Content-Disposition", "inline");
