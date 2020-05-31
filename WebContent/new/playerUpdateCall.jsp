@@ -5,7 +5,6 @@
 <%@page import="java.util.Map"%>
 <%@page import="org.apache.tomcat.util.codec.binary.Base64"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="game.global.Storage"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%!%> 
 <%
